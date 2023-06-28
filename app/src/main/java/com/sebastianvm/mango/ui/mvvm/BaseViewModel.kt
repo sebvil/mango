@@ -9,7 +9,7 @@ import kotlinx.coroutines.launch
 interface State
 interface UserAction
 
-abstract class BaseViewModel<S : State, A: UserAction>(
+abstract class BaseViewModel<S : State, A : UserAction>(
     initialState: S
 ) : ViewModel() {
     private val _state = MutableStateFlow(initialState)

@@ -16,11 +16,10 @@ class ExampleViewModel(
     initialState: ExampleState = ExampleState()
 ) : BaseViewModel<ExampleState, ExampleUserAction>(initialState) {
     override suspend fun onAction(action: ExampleUserAction) {
-        when(action) {
+        when (action) {
             is DidTapItem -> {
                 setState { copy(displayText = action.rowText) }
             }
         }
     }
-
 }

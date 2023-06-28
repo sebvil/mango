@@ -18,7 +18,7 @@ fun ExampleScreen(modifier: Modifier = Modifier, exampleViewModel: ExampleViewMo
     Column {
         Text(text = viewState.value.displayText, modifier)
 
-        viewState.value.rows.map { 
+        viewState.value.rows.map {
             Row {
                 Button(onClick = { exampleViewModel.handle(DidTapItem(it)) }, modifier) {
                     Text(it, modifier)
