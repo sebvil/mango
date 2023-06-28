@@ -1,10 +1,9 @@
 package com.sebastianvm.mango.ui.mvvm
 
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.flow.update
 
 interface State
 interface UserAction
@@ -18,7 +17,7 @@ abstract class BaseViewModel<S : State, A : UserAction>(
     abstract fun handle(action: A)
 
     // helper function to update state
-    internal fun setState(update: S.() -> S) {
-        _state.value = _state.value.update()
+    protected fun setState(update: S.() -> S) {
+        _state.update(update)
     }
 }
