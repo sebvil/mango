@@ -1,6 +1,5 @@
 package com.sebastianvm.mango.ui.example
 
-import androidx.lifecycle.SavedStateHandle
 import com.sebastianvm.mango.ui.mvvm.BaseViewModel
 import com.sebastianvm.mango.ui.mvvm.State
 import com.sebastianvm.mango.ui.mvvm.UserAction
@@ -40,7 +39,7 @@ object InitialExampleStateModule {
 
     @Provides
     @ViewModelScoped
-    fun initialExampleStateProvider(savedStateHandle: SavedStateHandle): ExampleState {
+    fun initialExampleStateProvider(): ExampleState {
         return ExampleState()
     }
 }

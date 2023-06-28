@@ -23,7 +23,8 @@ import kotlinx.serialization.modules.polymorphic
 private const val ARGS = "ARGS"
 
 enum class NavigationRoute(val hasArgs: Boolean) {
-    EXAMPLE(hasArgs = false)
+    Main(hasArgs = false),
+    Example(hasArgs = false)
 }
 
 
@@ -34,7 +35,7 @@ sealed class NavigationDestination(
     open val arguments: NavigationArguments?,
 ) {
     object Example :
-        NavigationDestination(navigationRoute = NavigationRoute.EXAMPLE, arguments = null)
+        NavigationDestination(navigationRoute = NavigationRoute.Example, arguments = null)
 }
 
 

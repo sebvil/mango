@@ -13,7 +13,7 @@ fun AppNavHost(navController: NavHostController) {
 
     NavHost(
         navController = navController,
-        startDestination = NavigationRoute.EXAMPLE.name,
+        startDestination = NavigationRoute.Main.name,
     ) {
         mainGraph(navController)
     }
@@ -21,8 +21,8 @@ fun AppNavHost(navController: NavHostController) {
 
 fun NavGraphBuilder.mainGraph(navController: NavController) {
     navigation(
-        startDestination = NavigationRoute.EXAMPLE.name,
-        route = NavigationRoute.EXAMPLE.name
+        startDestination = NavigationRoute.Example.name,
+        route = NavigationRoute.Main.name
     ) {
         exampleNavDestination(navController)
     }

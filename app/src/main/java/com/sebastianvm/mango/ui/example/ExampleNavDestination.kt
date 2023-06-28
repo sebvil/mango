@@ -8,8 +8,8 @@ import com.sebastianvm.mango.ui.navigation.screenDestination
 
 fun NavGraphBuilder.exampleNavDestination(navController: NavController) {
     screenDestination<ExampleViewModel>(
-        destination = NavigationRoute.EXAMPLE,
-        DestinationType.Screen
+        destination = NavigationRoute.Example,
+        destinationType = DestinationType.Screen
     ) { viewModel ->
         ExampleScreen(exampleViewModel = viewModel)
     }
