@@ -20,7 +20,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 
-const val ARGS = "ARGS"
+private const val ARGS = "ARGS"
 
 enum class NavigationRoute(val hasArgs: Boolean)
 
@@ -76,7 +76,7 @@ fun getArgumentsType(): NavType<NavigationArguments> =
 enum class DestinationType { Screen, BottomSheet }
 
 @OptIn(ExperimentalMaterialNavigationApi::class)
-inline fun <reified VM : ViewModel> NavGraphBuilder.screenDestination(
+internal inline fun <reified VM : ViewModel> NavGraphBuilder.screenDestination(
     destination: NavigationRoute,
     destinationType: DestinationType,
     crossinline screen: @Composable (VM) -> Unit
