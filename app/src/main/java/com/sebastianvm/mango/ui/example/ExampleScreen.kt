@@ -6,21 +6,34 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
-fun ExampleScreen(modifier: Modifier = Modifier, exampleViewModel: ExampleViewModel = viewModel()) {
-    val viewState = exampleViewModel.state.collectAsStateWithLifecycle()
+fun ExampleScreen(exampleViewModel: ExampleViewModel, modifier: Modifier = Modifier) {
+    val viewState by exampleViewModel.state.collectAsStateWithLifecycle()
+    ExampleScreenLayout(
+        state = viewState,
+        onButtonClick = { exampleViewModel.handle(DidTapItem(it)) },
+        modifier = modifier
+    )
+}
 
-    Column {
-        Text(text = viewState.value.displayText, modifier)
+@Composable
+fun ExampleScreenLayout(
+    state: ExampleState,
+    onButtonClick: (text: String) -> Unit,
+    modifier: Modifier = Modifier
+) {
+    Column(modifier = modifier) {
+        Text(text = state.displayText)
 
-        viewState.value.rows.map {
+        state.rows.map {
             Row {
-                Button(onClick = { exampleViewModel.handle(DidTapItem(it)) }, modifier) {
-                    Text(it, modifier)
+                Button(onClick = { onButtonClick(it) }) {
+                    Text(it)
                 }
             }
         }
