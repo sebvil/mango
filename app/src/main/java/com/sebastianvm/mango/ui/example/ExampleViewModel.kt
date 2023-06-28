@@ -15,7 +15,7 @@ data class DidTapItem(val rowText: String) : ExampleUserAction
 class ExampleViewModel(
     initialState: ExampleState = ExampleState()
 ) : BaseViewModel<ExampleState, ExampleUserAction>(initialState) {
-    override suspend fun onAction(action: ExampleUserAction) {
+    override fun handle(action: ExampleUserAction) {
         when (action) {
             is DidTapItem -> {
                 setState { copy(displayText = action.rowText) }

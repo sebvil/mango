@@ -15,11 +15,7 @@ abstract class BaseViewModel<S : State, A : UserAction>(
     private val _state = MutableStateFlow(initialState)
     val state: StateFlow<S> = _state
 
-    abstract suspend fun onAction(action: A)
-
-    fun handle(action: A) {
-        viewModelScope.launch { onAction(action) }
-    }
+    abstract fun handle(action: A)
 
     // helper function to update state
     internal fun setState(update: S.() -> S) {
