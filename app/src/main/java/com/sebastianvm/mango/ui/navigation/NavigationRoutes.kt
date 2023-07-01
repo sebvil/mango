@@ -27,7 +27,6 @@ enum class NavigationRoute(val hasArgs: Boolean) {
     Example(hasArgs = false)
 }
 
-
 interface NavigationArguments : Parcelable
 
 sealed class NavigationDestination(
@@ -37,7 +36,6 @@ sealed class NavigationDestination(
     object Example :
         NavigationDestination(navigationRoute = NavigationRoute.Example, arguments = null)
 }
-
 
 private val module = SerializersModule {
     polymorphic(NavigationArguments::class) {
