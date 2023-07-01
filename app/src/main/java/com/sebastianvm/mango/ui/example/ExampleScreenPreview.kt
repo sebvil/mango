@@ -1,13 +1,13 @@
 package com.sebastianvm.mango.ui.example
 
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.tooling.preview.Preview
-import com.sebastianvm.mango.ui.theme.MangoTheme
+import androidx.compose.ui.tooling.preview.PreviewParameter
+import com.sebastianvm.mango.ui.util.preview.ScreenPreview
 
-@Preview(showBackground = true)
+@ScreenPreview
 @Composable
-fun ExampleScreenPreview() {
-    MangoTheme {
-        ExampleScreen()
+fun ExampleScreenPreview(@PreviewParameter(ExampleStatePreviewParameterProvider::class) state: ExampleState) {
+    ScreenPreview {
+        ExampleScreenLayout(state = state, onButtonClick = {})
     }
 }
