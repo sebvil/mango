@@ -20,17 +20,22 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 
-const val ARGS = "ARGS"
+private const val ARGS = "ARGS"
 
-enum class NavigationRoute(val hasArgs: Boolean)
-
+enum class NavigationRoute(val hasArgs: Boolean) {
+    Main(hasArgs = false),
+    Example(hasArgs = false)
+}
 
 interface NavigationArguments : Parcelable
 
 sealed class NavigationDestination(
     val navigationRoute: NavigationRoute,
     open val arguments: NavigationArguments?,
-)
+) {
+    object Example :
+        NavigationDestination(navigationRoute = NavigationRoute.Example, arguments = null)
+}
 
 private val module = SerializersModule {
     polymorphic(NavigationArguments::class) {
