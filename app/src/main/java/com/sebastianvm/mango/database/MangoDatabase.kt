@@ -4,8 +4,11 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+<<<<<<< HEAD
 import com.sebastianvm.mango.database.dao.JobDao
 import com.sebastianvm.mango.database.models.JobEntity
+import com.sebastianvm.mango.database.dao.UserDao
+import com.sebastianvm.mango.database.models.UserEnt
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
