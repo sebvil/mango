@@ -1,6 +1,6 @@
 package com.sebastianvm.mango.model
 
-interface User {
+interface Job {
     val id: Int
-    val name: String?
+    val name: String
 }
