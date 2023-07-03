@@ -28,7 +28,6 @@ fun ScreenPreview(screen: @Composable () -> Unit) {
         ) {
             screen()
         }
-
     }
 }
 
@@ -38,7 +37,8 @@ fun ScreenPreview(screen: @Composable () -> Unit) {
 )
 @Preview(
     name = "portrait, dark ",
-    uiMode = Configuration.UI_MODE_NIGHT_YES, showSystemUi = true
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    showSystemUi = true
 )
 @Preview(
     name = "Landscape, light",

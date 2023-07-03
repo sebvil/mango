@@ -8,5 +8,5 @@ import com.sebastianvm.mango.model.Job
 @Entity
 data class JobEntity(
     @PrimaryKey override val id: Int,
-    @ColumnInfo(name = "name") override val name: String,
+    @ColumnInfo(name = "name") override val name: String
 ) : Job

@@ -13,7 +13,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
-interface JobRepository  {
+interface JobRepository {
     fun getJob(id: Int): Flow<Job>
 }
 
@@ -34,5 +34,4 @@ abstract class JobRepositoryModule {
 
     @Binds
     abstract fun provideUserStore(jobRepositoryImpl: JobRepositoryImpl): JobRepository
-
 }

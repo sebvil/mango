@@ -34,5 +34,4 @@ object MangoDatabaseModule {
     fun provideJobDao(mangoDatabase: MangoDatabase): JobDao {
         return mangoDatabase.jobDao()
     }
-
 }
