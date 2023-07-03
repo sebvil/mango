@@ -20,7 +20,7 @@ import kotlinx.serialization.json.Json
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.polymorphic
 
-private const val ARGS = "ARGS"
+const val ARGS = "ARGS"
 
 enum class NavigationRoute(val hasArgs: Boolean) {
     Main(hasArgs = false),

@@ -1,5 +1,6 @@
 package com.sebastianvm.mango.ui.example
 
+import com.sebastianvm.mango.data.JobRepository
 import com.sebastianvm.mango.ui.mvvm.BaseViewModel
 import com.sebastianvm.mango.ui.mvvm.State
 import com.sebastianvm.mango.ui.mvvm.UserAction
@@ -21,7 +22,9 @@ data class DidTapItem(val rowText: String) : ExampleUserAction
 
 
 @HiltViewModel
-class ExampleViewModel @Inject constructor(initialState: ExampleState) :
+class ExampleViewModel @Inject constructor(
+    initialState: ExampleState,
+    private val jobRepository: JobRepository) :
     BaseViewModel<ExampleState, ExampleUserAction>(initialState) {
     override fun handle(action: ExampleUserAction) {
         when (action) {
