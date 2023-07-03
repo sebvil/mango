@@ -22,7 +22,7 @@ class JobRepositoryImpl @Inject constructor(
     @IODispatcher private val ioDispatcher: CoroutineDispatcher
 ) : JobRepository {
     override fun getJob(id: Int): Flow<Job> {
-        return jobDao.getJobById(id).flowOn(ioDispatcher)
+        return jobDao.getJob(id).flowOn(ioDispatcher)
     }
 }
 
