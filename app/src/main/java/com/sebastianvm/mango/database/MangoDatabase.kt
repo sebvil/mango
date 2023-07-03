@@ -5,14 +5,14 @@ import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
 import com.sebastianvm.mango.database.dao.JobDao
-import com.sebastianvm.mango.database.models.JobEnt
+import com.sebastianvm.mango.database.models.JobEntity
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 
-@Database(entities = [JobEnt::class], version = 1)
+@Database(entities = [JobEntity::class], version = 1)
 abstract class MangoDatabase : RoomDatabase() {
     abstract fun jobDao(): JobDao
 }
@@ -28,6 +28,11 @@ object MangoDatabaseModule {
             MangoDatabase::class.java,
             "MangoDatabase"
         ).build()
+    }
+
+    @Provides
+    fun provideJobDao(mangoDatabase: MangoDatabase): JobDao {
+        return mangoDatabase.jobDao()
     }
 
 }
