@@ -6,4 +6,9 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.kapt) apply false
     alias(libs.plugins.com.google.dagger.hilt.android) apply false
 }
+
+exec {
+    commandLine("git", "config", "--local", "core.hooksPath", "scripts/githooks")
+}
+
 true // Needed to make the Suppress annotation work for the plugins block

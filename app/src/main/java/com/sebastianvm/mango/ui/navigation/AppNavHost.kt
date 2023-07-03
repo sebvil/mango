@@ -10,10 +10,9 @@ import com.sebastianvm.mango.ui.example.exampleNavDestination
 
 @Composable
 fun AppNavHost(navController: NavHostController) {
-
     NavHost(
         navController = navController,
-        startDestination = NavigationRoute.Main.name,
+        startDestination = NavigationRoute.Main.name
     ) {
         mainGraph(navController)
     }

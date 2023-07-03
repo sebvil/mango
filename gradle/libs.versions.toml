@@ -15,6 +15,7 @@ androidx-hilt = "1.0.0"
 accompanist = "0.31.4-beta"
 room="2.5.2"
 com-google-devtools="1.8.21-1.0.11"
+ktlint-gradle="11.4.2"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -50,6 +51,7 @@ org-jetbrains-kotlin-plugin-serialization = { id = "org.jetbrains.kotlin.plugin.
 com-google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 org-jetbrains-kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "org-jetbrains-kotlin-android" }
 com-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "com-google-devtools" }
+ktlint-gradle = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint-gradle" }
 
 [bundles]
 

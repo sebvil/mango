@@ -31,7 +31,7 @@ interface NavigationArguments : Parcelable
 
 sealed class NavigationDestination(
     val navigationRoute: NavigationRoute,
-    open val arguments: NavigationArguments?,
+    open val arguments: NavigationArguments?
 ) {
     object Example :
         NavigationDestination(navigationRoute = NavigationRoute.Example, arguments = null)
@@ -39,14 +39,14 @@ sealed class NavigationDestination(
 
 private val module = SerializersModule {
     polymorphic(NavigationArguments::class) {
-
     }
 }
 
 private val json = Json { serializersModule = module }
 
 fun NavController.navigateTo(
-    destination: NavigationDestination, builder: NavOptionsBuilder.() -> Unit = {}
+    destination: NavigationDestination,
+    builder: NavOptionsBuilder.() -> Unit = {}
 ) {
     val navRoute = if (destination.navigationRoute.hasArgs) {
         val encodedArgs = Uri.encode(json.encodeToString(destination.arguments))
@@ -56,7 +56,6 @@ fun NavController.navigateTo(
     }
     navigate(navRoute, builder)
 }
-
 
 fun getArgumentsType(): NavType<NavigationArguments> =
     object : NavType<NavigationArguments>(false) {
@@ -91,9 +90,15 @@ internal inline fun <reified VM : ViewModel> NavGraphBuilder.screenDestination(
     } else {
         destination.name
     }
-    val args = if (destination.hasArgs) listOf(navArgument(ARGS) {
-        type = getArgumentsType()
-    }) else listOf()
+    val args = if (destination.hasArgs) {
+        listOf(
+            navArgument(ARGS) {
+                type = getArgumentsType()
+            }
+        )
+    } else {
+        listOf()
+    }
 
     when (destinationType) {
         DestinationType.Screen -> composable(route = route, arguments = args) {

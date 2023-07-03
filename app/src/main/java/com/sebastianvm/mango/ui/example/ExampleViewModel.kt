@@ -20,11 +20,11 @@ data class ExampleState(
 sealed interface ExampleUserAction : UserAction
 data class DidTapItem(val rowText: String) : ExampleUserAction
 
-
 @HiltViewModel
 class ExampleViewModel @Inject constructor(
     initialState: ExampleState,
-    private val jobRepository: JobRepository) :
+    private val jobRepository: JobRepository
+) :
     BaseViewModel<ExampleState, ExampleUserAction>(initialState) {
     override fun handle(action: ExampleUserAction) {
         when (action) {
@@ -34,7 +34,6 @@ class ExampleViewModel @Inject constructor(
         }
     }
 }
-
 
 @InstallIn(ViewModelComponent::class)
 @Module

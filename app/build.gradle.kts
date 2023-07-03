@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.kapt)
     alias(libs.plugins.com.google.dagger.hilt.android)
     alias(libs.plugins.com.google.devtools.ksp)
+    alias(libs.plugins.ktlint.gradle)
 }
 
 android {
@@ -84,7 +85,6 @@ dependencies {
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
 }
-
 
 // Allow references to generated code
 kapt {
