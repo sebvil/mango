@@ -43,6 +43,8 @@ accompanist-navigation-material = { group = "com.google.accompanist", name = "ac
 room = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+ksp-api = { group = "com.google.devtools.ksp", name = "symbol-processing-api", version.ref = "com-google-devtools" }
+
 
 
 [plugins]

@@ -1,5 +1,7 @@
 package com.sebastianvm.mango.data
 
+import com.sebastianvm.fakegen.FakeClass
+import com.sebastianvm.fakegen.FakeQueryMethod
 import com.sebastianvm.mango.database.dao.JobDao
 import com.sebastianvm.mango.database.models.JobEntity
 import com.sebastianvm.mango.model.Job
@@ -13,7 +15,10 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
+@FakeClass
 interface JobRepository {
+
+    @FakeQueryMethod
     fun getJob(id: Int): Flow<Job>
 }
 
