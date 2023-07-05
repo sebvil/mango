@@ -6,36 +6,8 @@ import com.google.devtools.ksp.symbol.*
 import com.google.devtools.ksp.symbol.Variance.*
 import com.google.devtools.ksp.validate
 import com.google.devtools.ksp.visitor.KSDefaultVisitor
-import com.google.devtools.ksp.visitor.KSTopDownVisitor
 import java.io.OutputStream
 
-
-/**
- * This processor handles interfaces annotated with @Function.
- * It generates the function for each annotated interface. For each property of the interface it adds an argument for
- * the generated function with the same type and name.
- *
- * For example, the following code:
- *
- * ```kotlin
- * @Function(name = "myFunction")
- * interface MyFunction {
- *     val arg1: String
- *     val arg2: List<List<*>>
- * }
- * ```
- *
- * Will generate the corresponding function:
- *
- * ```kotlin
- * fun myFunction(
- *     arg1: String,
- *     arg2: List<List<*>>
- * ) {
- *     println("Hello from myFunction")
- * }
- * ```
- */
 class FakeProcessor(
     private val options: Map<String, String>,
     private val logger: KSPLogger,
@@ -45,8 +17,6 @@ class FakeProcessor(
     operator fun OutputStream.plusAssign(str: String) {
         this.write(str.toByteArray())
     }
-
-    private val imports: MutableSet<String> = mutableSetOf()
 
     override fun process(resolver: Resolver): List<KSAnnotated> {
         val symbols = resolver
@@ -64,8 +34,6 @@ class FakeProcessor(
             val packageName = it.packageName.asString()
             val interfaceName = it.simpleName.asString()
             val className = "Fake$interfaceName"
-            logger.warn("Creating $className at $packageName")
-
 
             val file = codeGenerator.createNewFile(
                 // Make sure to associate the generated file with sources to keep/maintain it across incremental builds.
@@ -73,13 +41,13 @@ class FakeProcessor(
                 // https://kotlinlang.org/docs/ksp-incremental.html
                 dependencies = Dependencies(false, *resolver.getAllFiles().toList().toTypedArray()),
                 packageName = packageName,
-                fileName = "$className"
+                fileName = className
             )
             // Generating package statement.
             file += "package $packageName\n\n"
 
 
-            file += it.accept(Visitor(file), Unit)
+            file += it.accept(Visitor(), Unit)
 
             file += "}\n"
 
@@ -90,66 +58,73 @@ class FakeProcessor(
         return symbols.filterNot { it.validate() }.toList()
     }
 
-    inner class Visitor(private val file: OutputStream) : KSDefaultVisitor<Unit, String>() {
+    inner class Visitor: KSDefaultVisitor<Unit, String>() {
 
         private val imports: MutableSet<String> = mutableSetOf()
+        private val classParameters: MutableSet<String> = mutableSetOf()
 
         override fun visitClassDeclaration(
             classDeclaration: KSClassDeclaration,
             data: Unit
         ): String {
-            if (classDeclaration.classKind != ClassKind.INTERFACE) {
-                logger.error("Only interface can be annotated with @FakeClass", classDeclaration)
-                return ""
-            }
-
             val interfaceName = classDeclaration.simpleName.asString()
             val className = "Fake$interfaceName"
 
             return buildString {
-                val body = classDeclaration.getDeclaredFunctions().map { it.accept(this@Visitor, Unit) }
-                    .joinToString("\n")
+                val body =
+                    classDeclaration.getDeclaredFunctions().map { it.accept(this@Visitor, Unit) }
+                        .joinToString("\n")
 
                 append(imports.sorted().joinToString("\n") { "import $it" })
                 append("\n\n")
-                append("class $className : $interfaceName {\n")
+                append("class $className")
+
+                if (classParameters.isNotEmpty()) {
+                    append("(\n")
+                    append(classParameters.joinToString(",\n") { "\tprivate val $it"})
+                    append("\n)")
+                }
+
+                append(": $interfaceName {\n\n")
 
                 append(body)
             }
-
-
-            // Generating function signature.
-//            if (properties.iterator().hasNext()) {
-//                file += "fun $functionName(\n"
-//
-//                // Iterating through each property to translate them to function arguments.
-//                properties.forEach { prop ->
-//                    visitPropertyDeclaration(prop, Unit)
-//                }
-//                file += ") {\n"
-//
-//            } else {
-//                // Otherwise, generating function with no args.
-//                file += "fun $functionName() {\n"
-//            }
-//
-//            // Generating function body.
-//            file += "    println(\"Hello from $functionName\")\n"
-//            file += "}\n"
         }
 
         override fun visitFunctionDeclaration(function: KSFunctionDeclaration, data: Unit): String {
             val annotation =
                 function.annotations.first { it.shortName.asString() == "FakeQueryMethod" }
 
+            val functionName = function.simpleName.asString()
+
+            val modifiers = function.modifiers.joinToString(" ") { it.name.lowercase() }
+
             return if (annotation.shortName.asString() == "FakeQueryMethod") {
+                imports.add("kotlinx.coroutines.flow.StateFlow")
                 buildString {
-                    append("\toverride fun ${function.simpleName.asString()}(")
+                    append("\toverride ")
+                    if (modifiers.isNotBlank()) {
+                        append("$modifiers ")
+                    }
+                    append("fun $functionName(")
                     append(function.parameters.joinToString { it.accept(this@Visitor, Unit) })
                     append("): ")
-                    append(function.returnType?.accept(this@Visitor, Unit) ?: "")
-                    append("{\n")
-                    append("\t\tTODO()\n")
+                    val returnType = function.returnType?.accept(this@Visitor, Unit) ?: kotlin.run {
+                        logger.error("Function annotated with FakeQueryMethod should have a return value")
+                        return ""
+                    }
+                    append("$returnType {\n")
+                    append("\t\treturn ")
+                    val flowRegex = Regex("Flow<(.*)>")
+                    val matches = flowRegex.find(returnType)
+                    if (matches != null) {
+                        val typeArgs = matches.groupValues[1]
+                        classParameters.add("${functionName}Value: StateFlow<$typeArgs>")
+                        append("${functionName}Value\n")
+                    } else {
+                        classParameters.add("${functionName}Value: StateFlow<$returnType>")
+                        append("${functionName}Value.value\n")
+                    }
                     append("\t}\n")
                 }
             } else {
@@ -165,7 +140,6 @@ class FakeProcessor(
 
         override fun visitTypeReference(typeReference: KSTypeReference, data: Unit): String {
             val import = typeReference.resolve().declaration.qualifiedName?.asString() ?: ""
-            logger.warn("Import $import")
             imports.add(import)
             val resolvedType = typeReference.resolve()
             resolvedType.arguments.forEach { it.type?.accept(this, Unit) }

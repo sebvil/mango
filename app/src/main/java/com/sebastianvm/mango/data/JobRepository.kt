@@ -12,6 +12,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
@@ -20,6 +21,9 @@ interface JobRepository {
 
     @FakeQueryMethod
     fun getJob(id: Int): Flow<Job>
+
+    @FakeQueryMethod
+    suspend fun getJobSuspend(id: Int): Job
 }
 
 class JobRepositoryImpl @Inject constructor(
@@ -28,6 +32,10 @@ class JobRepositoryImpl @Inject constructor(
 ) : JobRepository {
     override fun getJob(id: Int): Flow<Job> {
         return jobDao.getJob(id).flowOn(ioDispatcher)
+    }
+
+    override suspend fun getJobSuspend(id: Int): Job {
+        return getJob(id).first()
     }
 }
 
