@@ -23,7 +23,7 @@ interface JobRepository {
     fun getJob(id: Int): Flow<Job>
 
     @FakeQueryMethod
-    suspend fun getJobSuspend(id: Int): Job
+    fun loadAll(jobIds: List<Int>): Flow<List<Job>>
 }
 
 class JobRepositoryImpl @Inject constructor(
@@ -34,8 +34,8 @@ class JobRepositoryImpl @Inject constructor(
         return jobDao.getJob(id).flowOn(ioDispatcher)
     }
 
-    override suspend fun getJobSuspend(id: Int): Job {
-        return getJob(id).first()
+    override fun loadAll(jobIds: List<Int>): Flow<List<Job>> {
+        return jobDao.loadAll(jobIds)
     }
 }
 

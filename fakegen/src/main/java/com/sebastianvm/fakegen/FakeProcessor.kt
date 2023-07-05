@@ -58,7 +58,7 @@ class FakeProcessor(
         return symbols.filterNot { it.validate() }.toList()
     }
 
-    inner class Visitor: KSDefaultVisitor<Unit, String>() {
+    inner class Visitor : KSDefaultVisitor<Unit, String>() {
 
         private val imports: MutableSet<String> = mutableSetOf()
         private val classParameters: MutableSet<String> = mutableSetOf()
@@ -81,7 +81,7 @@ class FakeProcessor(
 
                 if (classParameters.isNotEmpty()) {
                     append("(\n")
-                    append(classParameters.joinToString(",\n") { "\tprivate val $it"})
+                    append(classParameters.joinToString(",\n") { "\tprivate val $it" })
                     append("\n)")
                 }
 
@@ -92,43 +92,68 @@ class FakeProcessor(
         }
 
         override fun visitFunctionDeclaration(function: KSFunctionDeclaration, data: Unit): String {
-            val annotation =
-                function.annotations.first { it.shortName.asString() == "FakeQueryMethod" }
+            val annotations =
+                function.annotations.filter {
+                    val name = it.shortName.asString()
+                    name == "FakeQueryMethod" || name == "FakeCommandMethod"
+                }.toList()
+            if (annotations.size != 1) {
+                logger.error("Method in FakeClass must be annotated with exactly one of @FakeQueryMethod or @FakeCommandMethod")
+                 return ""
+            }
+            val annotation = annotations.first()
 
             val functionName = function.simpleName.asString()
 
             val modifiers = function.modifiers.joinToString(" ") { it.name.lowercase() }
 
-            return if (annotation.shortName.asString() == "FakeQueryMethod") {
-                imports.add("kotlinx.coroutines.flow.StateFlow")
-                buildString {
-                    append("\toverride ")
-                    if (modifiers.isNotBlank()) {
-                        append("$modifiers ")
+            return when (annotation.shortName.asString()) {
+                "FakeQueryMethod" -> {
+                    imports.add("kotlinx.coroutines.flow.StateFlow")
+                    buildString {
+                        append("\toverride ")
+                        if (modifiers.isNotBlank()) {
+                            append("$modifiers ")
+                        }
+                        append("fun $functionName(")
+                        append(function.parameters.joinToString { it.accept(this@Visitor, Unit) })
+                        append("): ")
+                        val returnType =
+                            function.returnType?.accept(this@Visitor, Unit) ?: kotlin.run {
+                                logger.error("Function annotated with FakeQueryMethod should have a return value")
+                                return ""
+                            }
+                        append("$returnType {\n")
+                        append("\t\treturn ")
+                        val flowRegex = Regex("Flow<(.*)>")
+                        val matches = flowRegex.find(returnType)
+                        if (matches != null) {
+                            val typeArgs = matches.groupValues[1]
+                            classParameters.add("${functionName}Value: StateFlow<$typeArgs>")
+                            append("${functionName}Value\n")
+                        } else {
+                            classParameters.add("${functionName}Value: StateFlow<$returnType>")
+                            append("${functionName}Value.value\n")
+                        }
+                        append("\t}\n")
                     }
-                    append("fun $functionName(")
-                    append(function.parameters.joinToString { it.accept(this@Visitor, Unit) })
-                    append("): ")
-                    val returnType = function.returnType?.accept(this@Visitor, Unit) ?: kotlin.run {
-                        logger.error("Function annotated with FakeQueryMethod should have a return value")
-                        return ""
-                    }
-                    append("$returnType {\n")
-                    append("\t\treturn ")
-                    val flowRegex = Regex("Flow<(.*)>")
-                    val matches = flowRegex.find(returnType)
-                    if (matches != null) {
-                        val typeArgs = matches.groupValues[1]
-                        classParameters.add("${functionName}Value: StateFlow<$typeArgs>")
-                        append("${functionName}Value\n")
-                    } else {
-                        classParameters.add("${functionName}Value: StateFlow<$returnType>")
-                        append("${functionName}Value.value\n")
-                    }
-                    append("\t}\n")
                 }
-            } else {
-                ""
+
+                "FakeCommandMethod" -> {
+                    buildString {
+                        append("\toverride ")
+                        if (modifiers.isNotBlank()) {
+                            append("$modifiers ")
+                        }
+                        append("fun $functionName(")
+                        append(function.parameters.joinToString { it.accept(this@Visitor, Unit) })
+                        append(") {}\n")
+                    }
+                }
+
+                else -> {
+                    ""
+                }
             }
         }
 
