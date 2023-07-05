@@ -55,7 +55,6 @@ android {
     }
 
     ksp {
-        arg("room.incremental", "true")
         // TODO uncomment once we have the first valid version of DB
         // arg("room.schemaLocation", "$projectDir/schemas")
     }
