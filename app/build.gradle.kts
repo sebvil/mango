@@ -53,6 +53,15 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+
+    ksp {
+        // TODO uncomment once we have the first valid version of DB
+        // arg("room.schemaLocation", "$projectDir/schemas")
+    }
+
+    hilt {
+        enableAggregatingTask = true
+    }
 }
 
 dependencies {

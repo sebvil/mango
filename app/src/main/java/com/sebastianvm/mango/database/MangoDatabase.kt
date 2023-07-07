@@ -12,7 +12,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 
-@Database(entities = [JobEntity::class], version = 1)
+@Database(entities = [JobEntity::class], version = 1, exportSchema = false)
 abstract class MangoDatabase : RoomDatabase() {
     abstract fun jobDao(): JobDao
 }
