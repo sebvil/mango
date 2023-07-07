@@ -81,7 +81,7 @@ class FakeProcessor(
 
                 if (classParameters.isNotEmpty()) {
                     append("(\n")
-                    append(classParameters.joinToString(",\n") { "\tprivate val $it" })
+                    append(classParameters.joinToString(",\n") { "\tval $it" })
                     append("\n)")
                 }
 
@@ -109,7 +109,7 @@ class FakeProcessor(
 
             return when (annotation.shortName.asString()) {
                 "FakeQueryMethod" -> {
-                    imports.add("kotlinx.coroutines.flow.StateFlow")
+                    imports.add("kotlinx.coroutines.flow.MutableStateFlow")
                     buildString {
                         append("\toverride ")
                         if (modifiers.isNotBlank()) {
@@ -129,10 +129,10 @@ class FakeProcessor(
                         val matches = flowRegex.find(returnType)
                         if (matches != null) {
                             val typeArgs = matches.groupValues[1]
-                            classParameters.add("${functionName}Value: StateFlow<$typeArgs>")
+                            classParameters.add("${functionName}Value: MutableStateFlow<$typeArgs>")
                             append("${functionName}Value\n")
                         } else {
-                            classParameters.add("${functionName}Value: StateFlow<$returnType>")
+                            classParameters.add("${functionName}Value: MutableStateFlow<$returnType>")
                             append("${functionName}Value.value\n")
                         }
                         append("\t}\n")
