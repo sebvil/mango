@@ -26,17 +26,17 @@ object FakeProvider {
     fun jobEntityListProvider(): Stream<List<JobEntity>> {
         return Stream.of(
             listOf(
-                JobEntity(id = 0, name = "Mango"),
+                JobEntity(id = 0, name = "Mango")
             ),
             listOf(
                 JobEntity(id = 0, name = "Mango"),
-                JobEntity(id = 1, name = "Nectarine"),
+                JobEntity(id = 1, name = "Nectarine")
             ),
             listOf(
                 JobEntity(id = 0, name = "Mango"),
                 JobEntity(id = 1, name = "Nectarine"),
                 JobEntity(id = 2, name = "Orange")
-            ),
+            )
         )
     }
 }
