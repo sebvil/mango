@@ -1,0 +1,37 @@
+name: Pull Request Assigned
+on:
+  pull_request_target:
+    types:
+      - assigned
+      - unassigned
+
+jobs:
+  if_assigned:
+    if: github.event.pull_request.assignee != null
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r ./scripts/asana_integration/requirements.txt
+      - run: python3 ./scripts/asana_integration/main.py pullrequest-assigned --assignee-id {{ github.event.pull_request.assignee.id }} --pr-number {{ github.event.pull_request.number }}
+  if_unassigned:
+    if: github.event.pull_request.assignee == null
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r ./scripts/asana_integration/requirements.txt
+      - run: |
+      - run: python3 ./scripts/asana_integration/main.py pullrequest-assigned --assignee-id null --pr-number {{ github.event.pull_request.number }}

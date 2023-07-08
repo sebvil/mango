@@ -1,0 +1,20 @@
+name: Pull Request Opened
+on:
+  pull_request_target:
+    types:
+      - opened
+
+jobs:
+  create_task:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.11"
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r ./scripts/asana_integration/requirements.txt
+      - run: python3 ./scripts/asana_integration/main.py pullrequest-opened --assignee-id {{ github.event.pull_request.assignee.id }} --pr-number {{ github.event.pull_request.number }} --pr-url {{ github.event.pull_request.html_url }} --pr-title {{ github.event.pull_request.title}}
