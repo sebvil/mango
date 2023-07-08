@@ -17,13 +17,13 @@ from event import Event
 events: dict[str, Event] = {}
 
 
-def asana_event(event: type[Event]) -> type[Event]:
+def github_event(event: type[Event]) -> type[Event]:
     instance = event()
     events[instance.name()] = instance
     return event
 
 
-@asana_event
+@github_event
 class PullRequestOpened(Event):
     def name(self):
         return "pullrequest-opened"
@@ -51,7 +51,7 @@ class PullRequestOpened(Event):
         client.sections.add_task(PULL_REQUESTS_SECTION, {"task": task["gid"]})
 
 
-@asana_event
+@github_event
 class PullRequestAssigned(Event):
     def name(self) -> str:
         return "pullrequest-assigned"
