@@ -3,7 +3,6 @@ on:
   pull_request_target:
     types:
       - assigned
-      - unassigned
 
 jobs:
   assign_user_to_task:

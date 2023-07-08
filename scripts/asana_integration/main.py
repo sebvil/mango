@@ -71,10 +71,10 @@ class PullRequestAssigned(Event):
         task = tasks[0]
         asana_user = USER_MAPPING.get(args.assignee_id)
         if asana_user is None:
-            print(f"Removing assignee from task {task['gid']}")
-        else:
-            print(f"Assigning task {task['gid']} to {args.assignee_id}")
+            print(f"No mapping found for GitHub user {args.assignee_id}")
+            exit(1)
 
+        print(f"Assigning task {task['gid']} to {args.assignee_id}")
         client.tasks.update(
             task["gid"], {"assignee": USER_MAPPING.get(args.assignee_id)}
         )
