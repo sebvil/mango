@@ -1,6 +1,5 @@
 package com.sebastianvm.mango.data
 
-
 import app.cash.turbine.test
 import com.google.common.truth.Truth.assertThat
 import com.sebastianvm.mango.BaseTest
@@ -12,7 +11,6 @@ import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 
-
 class JobRepositoryImplTest : BaseTest() {
 
     private lateinit var jobDao: FakeJobDao
@@ -21,7 +19,6 @@ class JobRepositoryImplTest : BaseTest() {
     fun beforeEach() {
         jobDao = FakeProvider.jobDao
     }
-
 
     @ParameterizedTest()
     @MethodSource("com.sebastianvm.mango.FakeProvider#jobEntityProvider")
@@ -32,6 +29,4 @@ class JobRepositoryImplTest : BaseTest() {
             assertThat(awaitItem()).isEqualTo(jobEntity)
         }
     }
-
-
 }

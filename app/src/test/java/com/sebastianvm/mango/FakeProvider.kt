@@ -13,7 +13,6 @@ object FakeProvider {
             loadAllValue = MutableStateFlow(listOf(JobEntity(id = 0, name = "")))
         )
 
-
     @JvmStatic
     fun jobEntityProvider(): Stream<JobEntity> {
         return Stream.of(

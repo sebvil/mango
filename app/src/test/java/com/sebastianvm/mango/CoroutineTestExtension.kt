@@ -24,9 +24,7 @@ class CoroutineTestExtension : BeforeAllCallback, AfterAllCallback, BeforeEachCa
         Dispatchers.setMain(dispatcher)
     }
 
-
     override fun afterAll(context: ExtensionContext?) {
         Dispatchers.resetMain()
     }
-
 }

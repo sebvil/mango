@@ -1,6 +1,5 @@
 package com.sebastianvm.mango
 
-import com.sebastianvm.mango.data.JobRepositoryImplTest
 import kotlinx.coroutines.test.TestDispatcher
 import kotlinx.coroutines.test.TestScope
 import org.junit.jupiter.api.extension.RegisterExtension
