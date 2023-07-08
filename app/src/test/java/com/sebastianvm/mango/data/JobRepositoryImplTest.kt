@@ -20,13 +20,25 @@ class JobRepositoryImplTest : BaseTest() {
         jobDao = FakeProvider.jobDao
     }
 
-    @ParameterizedTest()
+    private fun getRepository(): JobRepositoryImpl {
+        return JobRepositoryImpl(jobDao = jobDao, ioDispatcher = dispatcher)
+    }
+
+    @ParameterizedTest
     @MethodSource("com.sebastianvm.mango.FakeProvider#jobEntityProvider")
     fun `getJob returns jobDao's job`(jobEntity: JobEntity) = testScope.runTest {
         jobDao.getJobValue.value = jobEntity
-        val jobRepository = JobRepositoryImpl(jobDao = jobDao, ioDispatcher = dispatcher)
-        jobRepository.getJob(0).test {
+        getRepository().getJob(id = 0).test {
             assertThat(awaitItem()).isEqualTo(jobEntity)
+        }
+    }
+
+    @ParameterizedTest
+    @MethodSource("com.sebastianvm.mango.FakeProvider#jobEntityListProvider")
+    fun `loadAll returns jobDao's job`(jobEntityList: List<JobEntity>) = testScope.runTest {
+        jobDao.loadAllValue.value = jobEntityList
+        getRepository().loadAll(jobIds = listOf()).test {
+            assertThat(awaitItem()).isEqualTo(jobEntityList)
         }
     }
 }
