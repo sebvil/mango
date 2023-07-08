@@ -15,3 +15,4 @@ dependencyResolutionManagement {
 
 rootProject.name = "Mango"
 include(":app")
+include(":fakegen")

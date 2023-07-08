@@ -24,8 +24,7 @@ data class DidTapItem(val rowText: String) : ExampleUserAction
 class ExampleViewModel @Inject constructor(
     initialState: ExampleState,
     private val jobRepository: JobRepository
-) :
-    BaseViewModel<ExampleState, ExampleUserAction>(initialState) {
+) : BaseViewModel<ExampleState, ExampleUserAction>(initialState) {
     override fun handle(action: ExampleUserAction) {
         when (action) {
             is DidTapItem -> {

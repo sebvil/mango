@@ -1,6 +1,6 @@
 [versions]
 agp = "8.1.0-rc01"
-org-jetbrains-kotlin-android = "1.8.21"
+org-jetbrains-kotlin-android = "1.8.22"
 core-ktx = "1.10.1"
 junit = "4.13.2"
 androidx-test-ext-junit = "1.1.5"
@@ -14,8 +14,9 @@ hilt = "2.46.1"
 androidx-hilt = "1.0.0"
 accompanist = "0.31.4-beta"
 room="2.5.2"
-com-google-devtools="1.8.21-1.0.11"
+com-google-devtools="1.8.22-1.0.11"
 ktlint-gradle="11.4.2"
+org-jetbrains-kotlin-jvm = "1.8.22"
 
 [libraries]
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
@@ -42,6 +43,8 @@ accompanist-navigation-material = { group = "com.google.accompanist", name = "ac
 room = { group = "androidx.room", name = "room-runtime", version.ref = "room" }
 room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "room" }
 room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "room" }
+ksp-api = { group = "com.google.devtools.ksp", name = "symbol-processing-api", version.ref = "com-google-devtools" }
+
 
 
 [plugins]
@@ -52,6 +55,7 @@ com-google-dagger-hilt-android = { id = "com.google.dagger.hilt.android", versio
 org-jetbrains-kotlin-kapt = { id = "org.jetbrains.kotlin.kapt", version.ref = "org-jetbrains-kotlin-android" }
 com-google-devtools-ksp = { id = "com.google.devtools.ksp", version.ref = "com-google-devtools" }
 ktlint-gradle = { id = "org.jlleitschuh.gradle.ktlint", version.ref = "ktlint-gradle" }
+org-jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "org-jetbrains-kotlin-jvm" }
 
 [bundles]
 
