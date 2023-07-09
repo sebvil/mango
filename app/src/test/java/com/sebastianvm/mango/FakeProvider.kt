@@ -8,16 +8,18 @@ import java.util.stream.Stream
 
 object FakeProvider {
 
+    val defaultJobEntity = JobEntity(id = 0, name = "")
+
     val jobDao: FakeJobDao
         get() = FakeJobDao(
-            getJobValue = MutableStateFlow(JobEntity(id = 0, name = "")),
-            loadAllValue = MutableStateFlow(listOf(JobEntity(id = 0, name = "")))
+            getJobValue = MutableStateFlow(defaultJobEntity),
+            loadAllValue = MutableStateFlow(listOf(defaultJobEntity))
         )
 
     val jobRepository: FakeJobRepository
         get() = FakeJobRepository(
-            getJobValue = MutableStateFlow(JobEntity(id = 0, name = "")),
-            loadAllValue = MutableStateFlow(listOf(JobEntity(id = 0, name = "")))
+            getJobValue = MutableStateFlow(defaultJobEntity),
+            loadAllValue = MutableStateFlow(listOf(defaultJobEntity))
         )
 
     @JvmStatic

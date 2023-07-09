@@ -12,6 +12,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
@@ -30,11 +31,11 @@ class JobRepositoryImpl @Inject constructor(
     @IODispatcher private val ioDispatcher: CoroutineDispatcher
 ) : JobRepository {
     override fun getJob(id: Int): Flow<Job> {
-        return jobDao.getJob(id).flowOn(ioDispatcher)
+        return jobDao.getJob(id).distinctUntilChanged().flowOn(ioDispatcher)
     }
 
     override fun loadAll(jobIds: List<Int>): Flow<List<Job>> {
-        return jobDao.loadAll(jobIds)
+        return jobDao.loadAll(jobIds).distinctUntilChanged().flowOn(ioDispatcher)
     }
 }
 

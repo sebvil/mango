@@ -26,19 +26,31 @@ class JobRepositoryImplTest : BaseTest() {
 
     @ParameterizedTest
     @MethodSource("com.sebastianvm.mango.FakeProvider#jobEntityProvider")
-    fun `getJob returns jobDao's job`(jobEntity: JobEntity) = testScope.runTest {
-        jobDao.getJobValue.value = jobEntity
-        getRepository().getJob(id = 0).test {
-            assertThat(awaitItem()).isEqualTo(jobEntity)
+    fun `getJob returns and subscribes only to new changes in jobDao's job`(jobEntity: JobEntity) =
+        testScope.runTest {
+            getRepository().getJob(id = 0).test {
+                assertThat(awaitItem()).isEqualTo(FakeProvider.defaultJobEntity)
+                jobDao.getJobValue.emit(jobEntity)
+                assertThat(awaitItem()).isEqualTo(jobEntity)
+
+                // This verifies that we don't emit a new value if the value
+                // emitted by the DAO has not changed
+                jobDao.getJobValue.emit(jobEntity)
+            }
         }
-    }
 
     @ParameterizedTest
     @MethodSource("com.sebastianvm.mango.FakeProvider#jobEntityListProvider")
-    fun `loadAll returns jobDao's job`(jobEntityList: List<JobEntity>) = testScope.runTest {
-        jobDao.loadAllValue.value = jobEntityList
-        getRepository().loadAll(jobIds = listOf()).test {
-            assertThat(awaitItem()).isEqualTo(jobEntityList)
+    fun `loadAll returns and subscribes only to new changes jobDao's loadAll`(jobEntityList: List<JobEntity>) =
+        testScope.runTest {
+            getRepository().loadAll(jobIds = listOf()).test {
+                assertThat(awaitItem()).isEqualTo(listOf(FakeProvider.defaultJobEntity))
+                jobDao.loadAllValue.emit(jobEntityList)
+                assertThat(awaitItem()).isEqualTo(jobEntityList)
+
+                // This verifies that we don't emit a new value if the value
+                // emitted by the DAO has not changed
+                jobDao.loadAllValue.emit(jobEntityList)
+            }
         }
-    }
 }
