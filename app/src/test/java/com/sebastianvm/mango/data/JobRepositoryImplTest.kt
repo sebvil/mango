@@ -43,14 +43,14 @@ class JobRepositoryImplTest : BaseTest() {
     @MethodSource("com.sebastianvm.mango.FakeProvider#jobEntityListProvider")
     fun `loadAll returns and subscribes only to new changes jobDao's loadAll`(jobEntityList: List<JobEntity>) =
         testScope.runTest {
-            getRepository().loadAll(jobIds = listOf()).test {
+            getRepository().getAllJobs().test {
                 assertThat(awaitItem()).isEqualTo(listOf(FakeProvider.defaultJobEntity))
-                jobDao.loadAllValue.emit(jobEntityList)
+                jobDao.getAllJobsValue.emit(jobEntityList)
                 assertThat(awaitItem()).isEqualTo(jobEntityList)
 
                 // This verifies that we don't emit a new value if the value
                 // emitted by the DAO has not changed
-                jobDao.loadAllValue.emit(jobEntityList)
+                jobDao.getAllJobsValue.emit(jobEntityList)
             }
         }
 }

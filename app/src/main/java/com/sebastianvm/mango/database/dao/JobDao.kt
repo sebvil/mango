@@ -18,14 +18,14 @@ interface JobDao {
     fun getJob(id: Int): Flow<JobEntity>
 
     @FakeQueryMethod
-    @Query("SELECT * FROM JobEntity WHERE id IN (:jobIds)")
-    fun loadAll(jobIds: List<Int>): Flow<List<JobEntity>>
+    @Query("SELECT * FROM JobEntity")
+    fun getAllJobs(): Flow<List<JobEntity>>
 
     @FakeCommandMethod
     @Insert
-    suspend fun insertAll(users: List<JobEntity>)
+    suspend fun insertJob(job: JobEntity)
 
     @FakeCommandMethod
     @Delete
-    suspend fun delete(user: JobEntity)
+    suspend fun delete(job: JobEntity)
 }

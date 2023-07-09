@@ -1,6 +1,7 @@
 package com.sebastianvm.mango.data
 
 import com.sebastianvm.fakegen.FakeClass
+import com.sebastianvm.fakegen.FakeCommandMethod
 import com.sebastianvm.fakegen.FakeQueryMethod
 import com.sebastianvm.mango.database.dao.JobDao
 import com.sebastianvm.mango.database.models.JobEntity
@@ -23,7 +24,10 @@ interface JobRepository {
     fun getJob(id: Int): Flow<Job>
 
     @FakeQueryMethod
-    fun loadAll(jobIds: List<Int>): Flow<List<Job>>
+    fun getAllJobs(): Flow<List<Job>>
+
+    @FakeCommandMethod
+    suspend fun createJob(jobName: String)
 }
 
 class JobRepositoryImpl @Inject constructor(
@@ -34,8 +38,12 @@ class JobRepositoryImpl @Inject constructor(
         return jobDao.getJob(id).distinctUntilChanged().flowOn(ioDispatcher)
     }
 
-    override fun loadAll(jobIds: List<Int>): Flow<List<Job>> {
-        return jobDao.loadAll(jobIds).distinctUntilChanged().flowOn(ioDispatcher)
+    override fun getAllJobs(): Flow<List<Job>> {
+        return jobDao.getAllJobs().distinctUntilChanged().flowOn(ioDispatcher)
+    }
+
+    override suspend fun createJob(jobName: String) {
+        jobDao.insertJob(JobEntity(id = 0, name = jobName))
     }
 }
 

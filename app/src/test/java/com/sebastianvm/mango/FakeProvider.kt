@@ -13,13 +13,13 @@ object FakeProvider {
     val jobDao: FakeJobDao
         get() = FakeJobDao(
             getJobValue = MutableStateFlow(defaultJobEntity),
-            loadAllValue = MutableStateFlow(listOf(defaultJobEntity))
+            getAllJobsValue = MutableStateFlow(listOf(defaultJobEntity))
         )
 
     val jobRepository: FakeJobRepository
         get() = FakeJobRepository(
             getJobValue = MutableStateFlow(defaultJobEntity),
-            loadAllValue = MutableStateFlow(listOf(defaultJobEntity))
+            getAllJobsValue = MutableStateFlow(listOf(defaultJobEntity))
         )
 
     @JvmStatic
