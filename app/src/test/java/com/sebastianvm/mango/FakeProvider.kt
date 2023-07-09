@@ -1,5 +1,6 @@
 package com.sebastianvm.mango
 
+import com.sebastianvm.mango.data.FakeJobRepository
 import com.sebastianvm.mango.database.dao.FakeJobDao
 import com.sebastianvm.mango.database.models.JobEntity
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -9,6 +10,12 @@ object FakeProvider {
 
     val jobDao: FakeJobDao
         get() = FakeJobDao(
+            getJobValue = MutableStateFlow(JobEntity(id = 0, name = "")),
+            loadAllValue = MutableStateFlow(listOf(JobEntity(id = 0, name = "")))
+        )
+
+    val jobRepository: FakeJobRepository
+        get() = FakeJobRepository(
             getJobValue = MutableStateFlow(JobEntity(id = 0, name = "")),
             loadAllValue = MutableStateFlow(listOf(JobEntity(id = 0, name = "")))
         )
