@@ -19,7 +19,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
 @Composable
 fun ExampleScreen(exampleViewModel: ExampleViewModel, modifier: Modifier = Modifier) {
-    val viewState by exampleViewModel.state.collectAsStateWithLifecycle()
+    val viewState by exampleViewModel.stateFlow.collectAsStateWithLifecycle()
     ExampleScreenLayout(
         state = viewState,
         onSubmitJobName = { exampleViewModel.handle(JobNameEntered(it)) },

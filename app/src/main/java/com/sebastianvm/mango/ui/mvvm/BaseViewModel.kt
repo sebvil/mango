@@ -13,7 +13,9 @@ abstract class BaseViewModel<S : State, A : UserAction>(
     initialState: S
 ) : ViewModel() {
     private val _state = MutableStateFlow(initialState)
-    val state: StateFlow<S> = _state
+    val stateFlow: StateFlow<S> = _state
+    val state: S
+        get() = _state.value
 
     // In tests, vmScope should be set to an instance of TestScope
     var vmScope = viewModelScope
