@@ -1,15 +1,9 @@
 package com.sebastianvm.mango.ui.example
 
-import app.cash.turbine.test
-import com.google.common.truth.Truth
 import com.google.common.truth.Truth.assertThat
 import com.sebastianvm.mango.BaseTest
 import com.sebastianvm.mango.FakeProvider
-import com.sebastianvm.mango.FakeProvider.jobDao
 import com.sebastianvm.mango.data.FakeJobRepository
-import com.sebastianvm.mango.data.JobRepository
-import com.sebastianvm.mango.data.JobRepositoryImpl
-import com.sebastianvm.mango.database.dao.FakeJobDao
 import com.sebastianvm.mango.database.models.JobEntity
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach

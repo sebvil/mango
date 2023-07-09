@@ -12,8 +12,7 @@ abstract class BaseTest {
 
     protected val dispatcher: TestDispatcher = coroutineExtension.dispatcher
 
-
-    fun <VM: BaseViewModel<*,*>> viewModelForTests(generateVM: () -> VM) : VM {
+    fun <VM : BaseViewModel<*, *>> viewModelForTests(generateVM: () -> VM): VM {
         return generateVM().apply {
             vmScope = testScope
         }
