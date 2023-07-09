@@ -42,7 +42,7 @@ fun ExampleScreenLayout(
             onValueChange = { newValue -> jobName = newValue },
             label = {
                 Text(text = "Job name")
-            },
+            }
 
         )
         Button(onClick = {
