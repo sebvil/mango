@@ -8,8 +8,4 @@ plugins {
     alias(libs.plugins.org.jetbrains.kotlin.jvm) apply false
 }
 
-exec {
-    commandLine("git", "config", "--local", "core.hooksPath", "scripts/githooks")
-}
-
 true // Needed to make the Suppress annotation work for the plugins block
