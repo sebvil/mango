@@ -10,7 +10,7 @@ interface State
 interface UserAction
 
 abstract class BaseViewModel<S : State, A : UserAction>(
-    initialState: S,
+    initialState: S
 ) : ViewModel() {
     private val _state = MutableStateFlow(initialState)
     val state: StateFlow<S> = _state
