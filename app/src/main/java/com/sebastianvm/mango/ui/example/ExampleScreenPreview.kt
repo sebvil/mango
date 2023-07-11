@@ -8,6 +8,6 @@ import com.sebastianvm.mango.ui.util.preview.ScreenPreview
 @Composable
 fun ExampleScreenPreview(@PreviewParameter(ExampleStatePreviewParameterProvider::class) state: ExampleState) {
     ScreenPreview {
-        ExampleScreenLayout(state = state, onButtonClick = {})
+        ExampleScreenLayout(state = state, onSubmitJobName = {})
     }
 }

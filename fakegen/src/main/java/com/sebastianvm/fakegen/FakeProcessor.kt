@@ -109,7 +109,7 @@ class FakeProcessor(
 
             return when (annotation.shortName.asString()) {
                 "FakeQueryMethod" -> {
-                    imports.add("kotlinx.coroutines.flow.MutableStateFlow")
+                    imports.add("kotlinx.coroutines.flow.MutableSharedFlow")
                     buildString {
                         append("\toverride ")
                         if (modifiers.isNotBlank()) {
@@ -129,7 +129,7 @@ class FakeProcessor(
                         val matches = flowRegex.find(returnType)
                         if (matches != null) {
                             val typeArgs = matches.groupValues[1]
-                            classParameters.add("${functionName}Value: MutableStateFlow<$typeArgs>")
+                            classParameters.add("${functionName}Value: MutableSharedFlow<$typeArgs>")
                             append("${functionName}Value\n")
                         } else {
                             classParameters.add("${functionName}Value: MutableStateFlow<$returnType>")

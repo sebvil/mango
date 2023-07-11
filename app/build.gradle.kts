@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.com.google.dagger.hilt.android)
     alias(libs.plugins.com.google.devtools.ksp)
     alias(libs.plugins.ktlint.gradle)
+    alias(libs.plugins.android.junit5)
 }
 
 android {
@@ -87,12 +88,12 @@ dependencies {
     ksp(libs.room.compiler)
     implementation(project(":fakegen"))
     ksp(project(":fakegen"))
+    implementation(libs.kotlinx.coroutines.core)
 
-    testImplementation(libs.junit)
-    androidTestImplementation(libs.androidx.test.ext.junit)
-    androidTestImplementation(libs.espresso.core)
-    androidTestImplementation(platform(libs.compose.bom))
-    androidTestImplementation(libs.ui.test.junit4)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.turbine)
+    testImplementation(libs.junit.jupiter)
+    testImplementation(libs.google.truth)
     debugImplementation(libs.ui.tooling)
     debugImplementation(libs.ui.test.manifest)
 }

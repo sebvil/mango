@@ -1,6 +1,7 @@
 package com.sebastianvm.mango.data
 
 import com.sebastianvm.fakegen.FakeClass
+import com.sebastianvm.fakegen.FakeCommandMethod
 import com.sebastianvm.fakegen.FakeQueryMethod
 import com.sebastianvm.mango.database.dao.JobDao
 import com.sebastianvm.mango.database.models.JobEntity
@@ -12,6 +13,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
@@ -22,7 +24,10 @@ interface JobRepository {
     fun getJob(id: Int): Flow<Job>
 
     @FakeQueryMethod
-    fun loadAll(jobIds: List<Int>): Flow<List<Job>>
+    fun getAllJobs(): Flow<List<Job>>
+
+    @FakeCommandMethod
+    suspend fun createJob(jobName: String)
 }
 
 class JobRepositoryImpl @Inject constructor(
@@ -30,11 +35,15 @@ class JobRepositoryImpl @Inject constructor(
     @IODispatcher private val ioDispatcher: CoroutineDispatcher
 ) : JobRepository {
     override fun getJob(id: Int): Flow<Job> {
-        return jobDao.getJob(id).flowOn(ioDispatcher)
+        return jobDao.getJob(id).distinctUntilChanged().flowOn(ioDispatcher)
     }
 
-    override fun loadAll(jobIds: List<Int>): Flow<List<Job>> {
-        return jobDao.loadAll(jobIds)
+    override fun getAllJobs(): Flow<List<Job>> {
+        return jobDao.getAllJobs().distinctUntilChanged().flowOn(ioDispatcher)
+    }
+
+    override suspend fun createJob(jobName: String) {
+        jobDao.insertJob(JobEntity(id = 0, name = jobName))
     }
 }
 
