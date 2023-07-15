@@ -12,12 +12,13 @@ plugins {
 
 android {
     namespace = "com.sebastianvm.mango"
-    compileSdk = 34
+    compileSdk = 33
+    compileSdkPreview = "UpsideDownCakePrivacySandbox"
 
     defaultConfig {
         applicationId = "com.sebastianvm.mango"
         minSdk = 29
-        targetSdk = 34
+        targetSdk = 33
         versionCode = 1
         versionName = "1.0"
 
@@ -86,12 +87,10 @@ dependencies {
     implementation(libs.room.ktx)
     annotationProcessor(libs.room.compiler)
     ksp(libs.room.compiler)
-    implementation(libs.kotlinx.coroutines.core)
-    implementation(libs.compose.destinations)
-    ksp(libs.compose.destinations.ksp)
-
     implementation(project(":fakegen"))
     kspDebug(project(":fakegen"))
+    implementation(libs.kotlinx.coroutines.core)
+
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.turbine)
     testImplementation(libs.junit.jupiter)
