@@ -90,6 +90,7 @@ dependencies {
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.compose.destinations)
     ksp(libs.compose.destinations.ksp)
+    implementation(libs.kotlinx.datetime)
 
     implementation(project(":fakegen"))
     kspDebug(project(":fakegen"))
