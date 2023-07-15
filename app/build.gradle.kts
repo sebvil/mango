@@ -87,10 +87,12 @@ dependencies {
     implementation(libs.room.ktx)
     annotationProcessor(libs.room.compiler)
     ksp(libs.room.compiler)
+    implementation(libs.kotlinx.coroutines.core)
+    implementation(libs.compose.destinations)
+    ksp(libs.compose.destinations.ksp)
+
     implementation(project(":fakegen"))
     kspDebug(project(":fakegen"))
-    implementation(libs.kotlinx.coroutines.core)
-
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.turbine)
     testImplementation(libs.junit.jupiter)
