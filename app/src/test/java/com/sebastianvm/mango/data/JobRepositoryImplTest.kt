@@ -31,7 +31,7 @@ class JobRepositoryImplTest : BaseTest() {
             getRepository().getJob(id = 0).test {
                 assertThat(awaitItem()).isEqualTo(FakeProvider.defaultJobEntity)
                 jobDao.getJobValue.emit(jobEntity)
-                assertThat(awaitItem()).isEqualTo(1)
+                assertThat(awaitItem()).isEqualTo(jobEntity)
 
                 // This verifies that we don't emit a new value if the value
                 // emitted by the DAO has not changed
