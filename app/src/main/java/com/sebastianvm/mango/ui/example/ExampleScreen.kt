@@ -15,15 +15,19 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.ramcosta.composedestinations.annotation.Destination
+import com.ramcosta.composedestinations.annotation.RootNavGraph
 
+@RootNavGraph(start = true)
+@Destination
 @Composable
-fun ExampleScreen(exampleViewModel: ExampleViewModel, modifier: Modifier = Modifier) {
+fun ExampleScreen(exampleViewModel: ExampleViewModel = hiltViewModel()) {
     val viewState by exampleViewModel.stateFlow.collectAsStateWithLifecycle()
     ExampleScreenLayout(
         state = viewState,
-        onSubmitJobName = { exampleViewModel.handle(JobNameEntered(it)) },
-        modifier = modifier
+        onSubmitJobName = { exampleViewModel.handle(JobNameEntered(it)) }
     )
 }
 
