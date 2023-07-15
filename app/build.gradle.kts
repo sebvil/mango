@@ -12,12 +12,12 @@ plugins {
 
 android {
     namespace = "com.sebastianvm.mango"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.sebastianvm.mango"
         minSdk = 29
-        targetSdk = 33
+        targetSdk = 34
         versionCode = 1
         versionName = "1.0"
 
@@ -58,6 +58,7 @@ android {
     ksp {
         // TODO uncomment once we have the first valid version of DB
         // arg("room.schemaLocation", "$projectDir/schemas")
+        arg("room.generateKotlin", "true")
     }
 
     hilt {
