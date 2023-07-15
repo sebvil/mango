@@ -3,10 +3,10 @@ package com.sebastianvm.mango.database.models
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.sebastianvm.mango.model.Job
+import com.sebastianvm.mango.model.IncomeSource
 
 @Entity
-data class JobEntity(
+data class IncomeSourceEntity(
     @PrimaryKey(autoGenerate = true) override val id: Int,
     @ColumnInfo(name = "name") override val name: String
-) : Job
+) : IncomeSource

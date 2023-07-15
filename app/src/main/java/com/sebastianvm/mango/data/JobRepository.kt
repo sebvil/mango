@@ -3,9 +3,9 @@ package com.sebastianvm.mango.data
 import com.sebastianvm.fakegen.FakeClass
 import com.sebastianvm.fakegen.FakeCommandMethod
 import com.sebastianvm.fakegen.FakeQueryMethod
-import com.sebastianvm.mango.database.dao.JobDao
-import com.sebastianvm.mango.database.models.JobEntity
-import com.sebastianvm.mango.model.Job
+import com.sebastianvm.mango.database.dao.IncomeSourceDao
+import com.sebastianvm.mango.database.models.IncomeSourceEntity
+import com.sebastianvm.mango.model.IncomeSource
 import com.sebastianvm.mango.util.coroutines.IODispatcher
 import dagger.Binds
 import dagger.Module
@@ -18,41 +18,41 @@ import kotlinx.coroutines.flow.flowOn
 import javax.inject.Inject
 
 @FakeClass
-interface JobRepository {
+interface IncomeSourceRepository {
 
     @FakeQueryMethod
-    fun getJob(id: Int): Flow<Job>
+    fun getIncomeSource(id: Int): Flow<IncomeSource>
 
     @FakeQueryMethod
-    fun getAllJobs(): Flow<List<Job>>
+    fun getAllIncomeSources(): Flow<List<IncomeSource>>
 
     @FakeCommandMethod
-    suspend fun createJob(jobName: String)
+    suspend fun createIncomeSource(incomeSourceName: String)
 }
 
-class JobRepositoryImpl @Inject constructor(
-    private val jobDao: JobDao,
+class IncomeSourceRepositoryImpl @Inject constructor(
+    private val incomeSourceDao: IncomeSourceDao,
     @IODispatcher private val ioDispatcher: CoroutineDispatcher
-) : JobRepository {
-    override fun getJob(id: Int): Flow<Job> {
-        return jobDao.getJob(id).distinctUntilChanged().flowOn(ioDispatcher)
+) : IncomeSourceRepository {
+    override fun getIncomeSource(id: Int): Flow<IncomeSource> {
+        return incomeSourceDao.getIncomeSource(id).distinctUntilChanged().flowOn(ioDispatcher)
     }
 
-    override fun getAllJobs(): Flow<List<Job>> {
-        return jobDao.getAllJobs().distinctUntilChanged().flowOn(ioDispatcher)
+    override fun getAllIncomeSources(): Flow<List<IncomeSource>> {
+        return incomeSourceDao.getAllIncomeSources().distinctUntilChanged().flowOn(ioDispatcher)
     }
 
-    override suspend fun createJob(jobName: String) {
-        jobDao.insertJob(JobEntity(id = 0, name = jobName))
+    override suspend fun createIncomeSource(incomeSourceName: String) {
+        incomeSourceDao.insertIncomeSource(IncomeSourceEntity(id = 0, name = incomeSourceName))
     }
 }
 
-fun Job.toEnt() = JobEntity(id, name)
+fun IncomeSource.toEnt() = IncomeSourceEntity(id, name)
 
 @Module
 @InstallIn(ViewModelComponent::class)
-abstract class JobRepositoryModule {
+abstract class IncomeSourceRepositoryModule {
 
     @Binds
-    abstract fun provideUserStore(jobRepositoryImpl: JobRepositoryImpl): JobRepository
+    abstract fun provideUserStore(incomeSourceRepositoryImpl: IncomeSourceRepositoryImpl): IncomeSourceRepository
 }

@@ -1,6 +1,6 @@
 package com.sebastianvm.mango.ui.example
 
-import com.sebastianvm.mango.data.JobRepository
+import com.sebastianvm.mango.data.IncomeSourceRepository
 import com.sebastianvm.mango.ui.mvvm.BaseViewModel
 import com.sebastianvm.mango.ui.mvvm.State
 import com.sebastianvm.mango.ui.mvvm.UserAction
@@ -16,29 +16,29 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class ExampleState(
-    val jobs: List<String> = listOf()
+    val incomeSources: List<String> = listOf()
 ) : State
 
 sealed interface ExampleUserAction : UserAction
-data class JobNameEntered(val jobName: String) : ExampleUserAction
+data class IncomeSourceNameEntered(val incomeSourceName: String) : ExampleUserAction
 
 @HiltViewModel
 class ExampleViewModel @Inject constructor(
     initialState: ExampleState,
-    private val jobRepository: JobRepository
+    private val incomeSourceRepository: IncomeSourceRepository
 ) : BaseViewModel<ExampleState, ExampleUserAction>(initialState) {
 
     init {
-        jobRepository.getAllJobs().onEach { jobs ->
-            setState { copy(jobs = jobs.map { it.name }) }
+        incomeSourceRepository.getAllIncomeSources().onEach { incomeSources ->
+            setState { copy(incomeSources = incomeSources.map { it.name }) }
         }.launchIn(vmScope)
     }
 
     override fun handle(action: ExampleUserAction) {
         when (action) {
-            is JobNameEntered -> {
+            is IncomeSourceNameEntered -> {
                 vmScope.launch {
-                    jobRepository.createJob(action.jobName)
+                    incomeSourceRepository.createIncomeSource(action.incomeSourceName)
                 }
             }
         }

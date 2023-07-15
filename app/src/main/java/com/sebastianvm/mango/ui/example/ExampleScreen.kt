@@ -27,37 +27,37 @@ fun ExampleScreen(exampleViewModel: ExampleViewModel = hiltViewModel()) {
     val viewState by exampleViewModel.stateFlow.collectAsStateWithLifecycle()
     ExampleScreenLayout(
         state = viewState,
-        onSubmitJobName = { exampleViewModel.handle(JobNameEntered(it)) }
+        onSubmitIncomeSourceName = { exampleViewModel.handle(IncomeSourceNameEntered(it)) }
     )
 }
 
 @Composable
 fun ExampleScreenLayout(
     state: ExampleState,
-    onSubmitJobName: (text: String) -> Unit,
+    onSubmitIncomeSourceName: (text: String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var jobName by remember {
+    var incomeSourceName by remember {
         mutableStateOf("")
     }
     Column(modifier = modifier.padding(all = 16.dp)) {
         TextField(
-            value = jobName,
-            onValueChange = { newValue -> jobName = newValue },
+            value = incomeSourceName,
+            onValueChange = { newValue -> incomeSourceName = newValue },
             label = {
-                Text(text = "Job name")
+                Text(text = "Income source name")
             }
 
         )
         Button(onClick = {
-            onSubmitJobName(jobName)
-            jobName = ""
+            onSubmitIncomeSourceName(incomeSourceName)
+            incomeSourceName = ""
         }) {
-            Text(text = "Add job")
+            Text(text = "Add income source")
         }
 
         LazyColumn {
-            items(state.jobs) {
+            items(state.incomeSources) {
                 ListItem(headlineContent = { Text(text = it) })
             }
         }
