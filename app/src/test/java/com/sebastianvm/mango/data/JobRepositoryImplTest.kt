@@ -55,7 +55,6 @@ class JobRepositoryImplTest : BaseTest() {
             }
         }
 
-
     @Test
     fun `insertJob calls jobDao's createJob`() = testScope.runTest {
         val repository = getRepository()
