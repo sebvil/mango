@@ -141,13 +141,25 @@ class FakeProcessor(
 
                 "FakeCommandMethod" -> {
                     buildString {
+                        append("\tprivate val _${functionName}Invocations: MutableList<List<Any>> = mutableListOf()\n\n")
+                        append("\tval ${functionName}Invocations: List<List<Any>>\n")
+                        append("\t\tget() = _${functionName}Invocations\n\n")
                         append("\toverride ")
                         if (modifiers.isNotBlank()) {
                             append("$modifiers ")
                         }
                         append("fun $functionName(")
                         append(function.parameters.joinToString { it.accept(this@Visitor, Unit) })
-                        append(") {}\n")
+                        append(") {\n")
+                        append("\t\t_${functionName}Invocations.add(listOf(")
+                        append(function.parameters.joinToString { it.name?.asString() ?: "" })
+                        append("))\n")
+                        append("\t}\n")
+                        append("\n")
+
+                        append("\tfun reset${functionName.capitalize()}Invocations() {\n")
+                        append("\t\t_${functionName}Invocations.clear()\n")
+                        append("\t}\n")
                     }
                 }
 

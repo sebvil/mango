@@ -8,6 +8,7 @@ import com.sebastianvm.mango.database.dao.FakeJobDao
 import com.sebastianvm.mango.database.models.JobEntity
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 
@@ -53,4 +54,13 @@ class JobRepositoryImplTest : BaseTest() {
                 jobDao.getAllJobsValue.emit(jobEntityList)
             }
         }
+
+
+    @Test
+    fun `insertJob calls jobDao's createJob`() = testScope.runTest {
+        val repository = getRepository()
+        val jobName = "jobName"
+        repository.createJob(jobName = jobName)
+        assertThat(jobDao.insertJobInvocations.last()).isEqualTo(listOf(JobEntity(id = 0, name = jobName)))
+    }
 }
