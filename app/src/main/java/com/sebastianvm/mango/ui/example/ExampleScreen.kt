@@ -27,7 +27,7 @@ fun ExampleScreen(exampleViewModel: ExampleViewModel = hiltViewModel()) {
     val viewState by exampleViewModel.stateFlow.collectAsStateWithLifecycle()
     ExampleScreenLayout(
         state = viewState,
-        onSubmitJobName = { exampleViewModel.handle(JobNameEntered(it)) },
+        onSubmitJobName = { exampleViewModel.handle(JobNameEntered(it)) }
     )
 }
 
