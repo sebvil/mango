@@ -2,6 +2,7 @@ package com.sebastianvm.mango.model
 
 import com.sebastianvm.mango.util.date.DateRange
 import kotlinx.datetime.LocalDate
+import kotlinx.serialization.Serializable
 
 /**
  *
@@ -27,6 +28,7 @@ import kotlinx.datetime.LocalDate
  *  person will get paid. That day will be the last day of the current pay period + [daysFromEndOfPayPeriodToPayDay]
  *
  */
+@Serializable
 sealed interface PayFrequency {
     val firstPayPeriod: DateRange
     val daysFromEndOfPayPeriodToPayDay: Int
@@ -36,6 +38,7 @@ sealed interface PayFrequency {
     /**
      * For one time payments
      */
+    @Serializable
     data class OneTime(val date: LocalDate) : PayFrequency {
         override val firstPayPeriod: DateRange = DateRange(date, date)
         override val daysFromEndOfPayPeriodToPayDay: Int = 0
@@ -45,6 +48,7 @@ sealed interface PayFrequency {
     /**
      * For payments every week
      */
+    @Serializable
     data class Weekly(
         override val firstPayPeriod: DateRange,
         override val daysFromEndOfPayPeriodToPayDay: Int,
@@ -55,6 +59,7 @@ sealed interface PayFrequency {
     /**
      * For payments every two weeks
      */
+    @Serializable
     data class SemiWeekly(
         override val firstPayPeriod: DateRange,
         override val daysFromEndOfPayPeriodToPayDay: Int,
@@ -65,6 +70,7 @@ sealed interface PayFrequency {
     /**
      * For payments twice a month (15 and last day)
      */
+    @Serializable
     data class SemiMonthly(
         override val firstPayPeriod: DateRange,
         override val daysFromEndOfPayPeriodToPayDay: Int,
@@ -75,6 +81,7 @@ sealed interface PayFrequency {
     /**
      * For monthly payments
      */
+    @Serializable
     data class Monthly(
         override val firstPayPeriod: DateRange,
         override val daysFromEndOfPayPeriodToPayDay: Int,

@@ -6,6 +6,7 @@ package com.sebastianvm.mango.model
  * An example is life insurance. The property [paidToSelf] is included to track this.
  */
 interface IncomeStream {
+    val id: Long
     val name: String
     val type: IncomeInfo
     val paidToSelf: Boolean
