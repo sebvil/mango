@@ -12,7 +12,6 @@ import com.sebastianvm.mango.database.dao.IncomeSourceDao
 import com.sebastianvm.mango.database.models.IncomeSourceEntity
 import com.sebastianvm.mango.database.models.IncomeStreamEntity
 import com.sebastianvm.mango.database.models.TaxEntity
-import com.sebastianvm.mango.model.Tax
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

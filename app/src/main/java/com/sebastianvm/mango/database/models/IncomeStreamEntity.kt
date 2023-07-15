@@ -5,7 +5,6 @@ import androidx.room.PrimaryKey
 import com.sebastianvm.mango.model.IncomeInfo
 import com.sebastianvm.mango.model.IncomeStream
 
-
 @Entity
 data class IncomeStreamEntity(
     @PrimaryKey(autoGenerate = true) override val id: Long,

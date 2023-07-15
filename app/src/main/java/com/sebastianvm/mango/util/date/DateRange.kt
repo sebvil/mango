@@ -3,7 +3,6 @@ package com.sebastianvm.mango.util.date
 import kotlinx.datetime.LocalDate
 import kotlinx.serialization.Serializable
 
-
 /**
  * Inclusive date range
  */

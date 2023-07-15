@@ -15,5 +15,4 @@ class IncomeInfoConverters {
     fun incomeInfoToString(value: IncomeInfo): String {
         return Json.encodeToString(value)
     }
-
 }

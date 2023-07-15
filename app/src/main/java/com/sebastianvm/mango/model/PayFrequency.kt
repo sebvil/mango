@@ -34,7 +34,6 @@ sealed interface PayFrequency {
     val daysFromEndOfPayPeriodToPayDay: Int
     val lastDay: LocalDate?
 
-
     /**
      * For one time payments
      */
@@ -55,7 +54,6 @@ sealed interface PayFrequency {
         override val lastDay: LocalDate? = null
     ) : PayFrequency
 
-
     /**
      * For payments every two weeks
      */
@@ -65,7 +63,6 @@ sealed interface PayFrequency {
         override val daysFromEndOfPayPeriodToPayDay: Int,
         override val lastDay: LocalDate? = null
     ) : PayFrequency
-
 
     /**
      * For payments twice a month (15 and last day)
@@ -77,7 +74,6 @@ sealed interface PayFrequency {
         override val lastDay: LocalDate? = null
     ) : PayFrequency
 
-
     /**
      * For monthly payments
      */
@@ -87,5 +83,4 @@ sealed interface PayFrequency {
         override val daysFromEndOfPayPeriodToPayDay: Int,
         override val lastDay: LocalDate? = null
     ) : PayFrequency
-
 }

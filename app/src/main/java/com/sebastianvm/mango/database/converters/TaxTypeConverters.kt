@@ -1,7 +1,6 @@
 package com.sebastianvm.mango.database.converters
 
 import androidx.room.TypeConverter
-import com.sebastianvm.mango.model.IncomeInfo
 import com.sebastianvm.mango.model.TaxType
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
