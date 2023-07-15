@@ -10,7 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
-import com.sebastianvm.mango.ui.navigation.AppNavHost
+import com.ramcosta.composedestinations.DestinationsNavHost
+import com.sebastianvm.mango.ui.example.NavGraphs
 import com.sebastianvm.mango.ui.navigation.M3ModalBottomSheetLayout
 import com.sebastianvm.mango.ui.theme.MangoTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,7 +31,7 @@ class MainActivity : ComponentActivity() {
                     val bottomSheetNavigator = rememberBottomSheetNavigator()
                     val navController = rememberNavController(bottomSheetNavigator)
                     M3ModalBottomSheetLayout(bottomSheetNavigator = bottomSheetNavigator) {
-                        AppNavHost(navController = navController)
+                        DestinationsNavHost(navGraph = NavGraphs.root)
                     }
                 }
             }
