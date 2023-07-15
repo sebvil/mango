@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import androidx.navigation.compose.rememberNavController
 import com.google.accompanist.navigation.material.ExperimentalMaterialNavigationApi
 import com.google.accompanist.navigation.material.rememberBottomSheetNavigator
 import com.ramcosta.composedestinations.DestinationsNavHost
@@ -29,7 +28,6 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     val bottomSheetNavigator = rememberBottomSheetNavigator()
-                    val navController = rememberNavController(bottomSheetNavigator)
                     M3ModalBottomSheetLayout(bottomSheetNavigator = bottomSheetNavigator) {
                         DestinationsNavHost(navGraph = NavGraphs.root)
                     }
