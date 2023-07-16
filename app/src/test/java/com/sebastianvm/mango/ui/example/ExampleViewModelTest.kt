@@ -7,6 +7,7 @@ import com.sebastianvm.mango.data.FakeIncomeSourceRepository
 import com.sebastianvm.mango.database.models.IncomeSourceEntity
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.Test
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.MethodSource
 
@@ -39,5 +40,13 @@ class ExampleViewModelTest : BaseTest() {
             }
         }
 
-    // TODO write IncomeSourceNameEntered test when command fake generation is done
+    @Test
+    fun `onIncomeSourceNameEntered sets state correctly`() = testScope.runTest {
+        with(generateViewModel()) {
+            assertThat(incomeSourceRepository.createIncomeSourceInvocations).isEmpty()
+            handle(IncomeSourceNameEntered("Test"))
+            assertThat(incomeSourceRepository.createIncomeSourceInvocations.last())
+                .isEqualTo(listOf("Test"))
+        }
+    }
 }
