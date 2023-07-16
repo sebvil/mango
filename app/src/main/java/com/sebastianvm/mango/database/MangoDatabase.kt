@@ -4,17 +4,28 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
-import com.sebastianvm.mango.database.dao.JobDao
-import com.sebastianvm.mango.database.models.JobEntity
+import androidx.room.TypeConverters
+import com.sebastianvm.mango.database.converters.DeductionConverters
+import com.sebastianvm.mango.database.converters.IncomeInfoConverters
+import com.sebastianvm.mango.database.converters.TaxTypeConverters
+import com.sebastianvm.mango.database.dao.IncomeSourceDao
+import com.sebastianvm.mango.database.models.IncomeSourceEntity
+import com.sebastianvm.mango.database.models.IncomeStreamEntity
+import com.sebastianvm.mango.database.models.TaxEntity
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 
-@Database(entities = [JobEntity::class], version = 1, exportSchema = false)
+@Database(
+    entities = [IncomeSourceEntity::class, IncomeStreamEntity::class, TaxEntity::class],
+    version = 1,
+    exportSchema = false
+)
+@TypeConverters(IncomeInfoConverters::class, TaxTypeConverters::class, DeductionConverters::class)
 abstract class MangoDatabase : RoomDatabase() {
-    abstract fun jobDao(): JobDao
+    abstract fun incomeSourceDao(): IncomeSourceDao
 }
 
 @Module
@@ -31,7 +42,7 @@ object MangoDatabaseModule {
     }
 
     @Provides
-    fun provideJobDao(mangoDatabase: MangoDatabase): JobDao {
-        return mangoDatabase.jobDao()
+    fun provideIncomeSourceDao(mangoDatabase: MangoDatabase): IncomeSourceDao {
+        return mangoDatabase.incomeSourceDao()
     }
 }

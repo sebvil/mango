@@ -1,50 +1,50 @@
 package com.sebastianvm.mango
 
-import com.sebastianvm.mango.data.FakeJobRepository
-import com.sebastianvm.mango.database.dao.FakeJobDao
-import com.sebastianvm.mango.database.models.JobEntity
+import com.sebastianvm.mango.data.FakeIncomeSourceRepository
+import com.sebastianvm.mango.database.dao.FakeIncomeSourceDao
+import com.sebastianvm.mango.database.models.IncomeSourceEntity
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.util.stream.Stream
 
 object FakeProvider {
 
-    val defaultJobEntity = JobEntity(id = 0, name = "")
+    val defaultIncomeSourceEntity = IncomeSourceEntity(id = 0, name = "")
 
-    val jobDao: FakeJobDao
-        get() = FakeJobDao(
-            getJobValue = MutableStateFlow(defaultJobEntity),
-            getAllJobsValue = MutableStateFlow(listOf(defaultJobEntity))
+    val incomeSourceDao: FakeIncomeSourceDao
+        get() = FakeIncomeSourceDao(
+            getIncomeSourceValue = MutableStateFlow(defaultIncomeSourceEntity),
+            getAllIncomeSourcesValue = MutableStateFlow(listOf(defaultIncomeSourceEntity))
         )
 
-    val jobRepository: FakeJobRepository
-        get() = FakeJobRepository(
-            getJobValue = MutableStateFlow(defaultJobEntity),
-            getAllJobsValue = MutableStateFlow(listOf(defaultJobEntity))
+    val incomeSourceRepository: FakeIncomeSourceRepository
+        get() = FakeIncomeSourceRepository(
+            getIncomeSourceValue = MutableStateFlow(defaultIncomeSourceEntity),
+            getAllIncomeSourcesValue = MutableStateFlow(listOf(defaultIncomeSourceEntity))
         )
 
     @JvmStatic
-    fun jobEntityProvider(): Stream<JobEntity> {
+    fun incomeSourceEntityProvider(): Stream<IncomeSourceEntity> {
         return Stream.of(
-            JobEntity(id = 0, name = "Mango"),
-            JobEntity(id = 1, name = "Nectarine"),
-            JobEntity(id = 2, name = "Orange")
+            IncomeSourceEntity(id = 0, name = "Mango"),
+            IncomeSourceEntity(id = 1, name = "Nectarine"),
+            IncomeSourceEntity(id = 2, name = "Orange")
         )
     }
 
     @JvmStatic
-    fun jobEntityListProvider(): Stream<List<JobEntity>> {
+    fun incomeSourceEntityListProvider(): Stream<List<IncomeSourceEntity>> {
         return Stream.of(
             listOf(
-                JobEntity(id = 0, name = "Mango")
+                IncomeSourceEntity(id = 0, name = "Mango")
             ),
             listOf(
-                JobEntity(id = 0, name = "Mango"),
-                JobEntity(id = 1, name = "Nectarine")
+                IncomeSourceEntity(id = 0, name = "Mango"),
+                IncomeSourceEntity(id = 1, name = "Nectarine")
             ),
             listOf(
-                JobEntity(id = 0, name = "Mango"),
-                JobEntity(id = 1, name = "Nectarine"),
-                JobEntity(id = 2, name = "Orange")
+                IncomeSourceEntity(id = 0, name = "Mango"),
+                IncomeSourceEntity(id = 1, name = "Nectarine"),
+                IncomeSourceEntity(id = 2, name = "Orange")
             )
         )
     }

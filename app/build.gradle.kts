@@ -85,11 +85,11 @@ dependencies {
     implementation(libs.accompanist.navigation.material)
     implementation(libs.room)
     implementation(libs.room.ktx)
-    annotationProcessor(libs.room.compiler)
     ksp(libs.room.compiler)
     implementation(libs.kotlinx.coroutines.core)
     implementation(libs.compose.destinations)
     ksp(libs.compose.destinations.ksp)
+    implementation(libs.kotlinx.datetime)
 
     implementation(project(":fakegen"))
     kspDebug(project(":fakegen"))

@@ -1,6 +1,6 @@
 package com.sebastianvm.mango.model
 
-interface Job {
-    val id: Int
+interface IncomeSource {
+    val id: Long
     val name: String
 }

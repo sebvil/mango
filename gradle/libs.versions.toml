@@ -1,6 +1,7 @@
 [versions]
 agp = "8.1.0-rc01"
 compose-destinations = "1.9.50"
+kotlinx-datetime = "0.4.0"
 org-jetbrains-kotlin = "1.8.22"
 core-ktx = "1.11.0-beta02"
 junit-jupiter = "5.8.2"
@@ -25,6 +26,7 @@ compose-destinations = { module = "io.github.raamcosta.compose-destinations:anim
 compose-destinations-ksp = { module = "io.github.raamcosta.compose-destinations:ksp", version.ref = "compose-destinations" }
 core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "core-ktx" }
 junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit-jupiter" }
+kotlinx-datetime = { module = "org.jetbrains.kotlinx:kotlinx-datetime", version.ref = "kotlinx-datetime" }
 lifecycle-runtime-compose = { group = "androidx.lifecycle", name = "lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
 activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activity-compose" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
