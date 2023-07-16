@@ -6,6 +6,6 @@ import com.sebastianvm.mango.model.IncomeSource
 
 @Entity
 data class IncomeSourceEntity(
-    @PrimaryKey(autoGenerate = true) override val id: Int,
+    @PrimaryKey(autoGenerate = true) override val id: Long,
     override val name: String
 ) : IncomeSource
