@@ -22,7 +22,8 @@ class BigDecimalSerializer : KSerializer<BigDecimal> {
         val string = value.toString()
         encoder.encodeString(string)
     }
-
 }
 
-typealias BigDecimalAsString = @Serializable(with = BigDecimalSerializer::class) BigDecimal
+typealias BigDecimalAsString =
+    @Serializable(with = BigDecimalSerializer::class)
+    BigDecimal
