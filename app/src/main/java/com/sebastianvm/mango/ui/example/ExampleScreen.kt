@@ -31,8 +31,7 @@ fun ExampleScreen(exampleViewModel: ExampleViewModel = hiltViewModel()) {
     val viewState by exampleViewModel.stateFlow.collectAsStateWithLifecycle()
     ExampleScreenLayout(
         state = viewState,
-        onSubmitIncomeSourceName = { exampleViewModel.handle(IncomeSourceNameEntered(it)) },
-        modifier = Modifier.statusBarsPadding()
+        onSubmitIncomeSourceName = { exampleViewModel.handle(IncomeSourceNameEntered(it)) }
     )
 }
 
@@ -45,7 +44,7 @@ fun ExampleScreenLayout(
     var incomeSourceName by remember {
         mutableStateOf("")
     }
-    Column(modifier = modifier.padding(horizontal = 16.dp)) {
+    Column(modifier = modifier.statusBarsPadding().padding(horizontal = 16.dp)) {
         TextField(
             value = incomeSourceName,
             onValueChange = { newValue -> incomeSourceName = newValue },
