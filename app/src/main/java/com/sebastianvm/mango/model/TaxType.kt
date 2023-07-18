@@ -1,16 +1,20 @@
 package com.sebastianvm.mango.model
 
 import com.sebastianvm.mango.util.bigdecimal.BigDecimalAsString
+import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
 sealed interface TaxType
 
 @Serializable
-data class Progressive(val taxBrackets: List<TaxBracket>)
+@SerialName("Progressive")
+data class Progressive(val taxBrackets: List<TaxBracket>) : TaxType
 
 @Serializable
-data class Fixed(val rate: BigDecimalAsString)
+@SerialName("Fixed")
+data class Fixed(val rate: BigDecimalAsString) : TaxType
 
 @Serializable
-data class FixedWithMax(val rate: BigDecimalAsString, val maxTaxableIncome: BigDecimalAsString)
+@SerialName("Fixed with max")
+data class FixedWithMax(val rate: BigDecimalAsString, val maxTaxableIncome: BigDecimalAsString) : TaxType
