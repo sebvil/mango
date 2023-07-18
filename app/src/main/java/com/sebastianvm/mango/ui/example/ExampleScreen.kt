@@ -1,7 +1,13 @@
 package com.sebastianvm.mango.ui.example
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.asPaddingValues
+import androidx.compose.foundation.layout.navigationBars
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawingPadding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.systemBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Button
@@ -27,7 +33,8 @@ fun ExampleScreen(exampleViewModel: ExampleViewModel = hiltViewModel()) {
     val viewState by exampleViewModel.stateFlow.collectAsStateWithLifecycle()
     ExampleScreenLayout(
         state = viewState,
-        onSubmitIncomeSourceName = { exampleViewModel.handle(IncomeSourceNameEntered(it)) }
+        onSubmitIncomeSourceName = { exampleViewModel.handle(IncomeSourceNameEntered(it)) },
+        modifier = Modifier.statusBarsPadding()
     )
 }
 
@@ -40,7 +47,7 @@ fun ExampleScreenLayout(
     var incomeSourceName by remember {
         mutableStateOf("")
     }
-    Column(modifier = modifier.padding(all = 16.dp)) {
+    Column(modifier = modifier.padding(horizontal = 16.dp)) {
         TextField(
             value = incomeSourceName,
             onValueChange = { newValue -> incomeSourceName = newValue },
@@ -56,7 +63,7 @@ fun ExampleScreenLayout(
             Text(text = "Add income source")
         }
 
-        LazyColumn {
+        LazyColumn(contentPadding = WindowInsets.navigationBars.asPaddingValues()) {
             items(state.incomeSources) {
                 ListItem(headlineContent = { Text(text = it) })
             }
