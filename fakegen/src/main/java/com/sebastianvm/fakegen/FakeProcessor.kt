@@ -7,6 +7,7 @@ import com.google.devtools.ksp.symbol.Variance.*
 import com.google.devtools.ksp.validate
 import com.google.devtools.ksp.visitor.KSDefaultVisitor
 import java.io.OutputStream
+import java.util.Locale
 
 class FakeProcessor(
     private val options: Map<String, String>,
@@ -22,18 +23,18 @@ class FakeProcessor(
         val symbols = resolver
             .getSymbolsWithAnnotation("com.sebastianvm.fakegen.FakeClass")
             .filterIsInstance<KSClassDeclaration>()
-
         if (!symbols.iterator().hasNext()) return emptyList()
 
 
         symbols.forEach {
+            logger.warn("Processing ${it.simpleName.getShortName()}")
             if (it.classKind != ClassKind.INTERFACE) {
                 logger.error("Only interface can be annotated with @FakeClass", it)
                 return@forEach
             }
             val packageName = it.packageName.asString()
             val interfaceName = it.simpleName.asString()
-            val className = "Fake$interfaceName"
+            val className = "${interfaceName}Impl"
 
             val file = codeGenerator.createNewFile(
                 // Make sure to associate the generated file with sources to keep/maintain it across incremental builds.
@@ -68,11 +69,11 @@ class FakeProcessor(
             data: Unit
         ): String {
             val interfaceName = classDeclaration.simpleName.asString()
-            val className = "Fake$interfaceName"
+            val className = "${interfaceName}Impl"
 
             return buildString {
                 val body =
-                    classDeclaration.getDeclaredFunctions().map { it.accept(this@Visitor, Unit) }
+                    classDeclaration.getAllFunctions().map { it.accept(this@Visitor, Unit) }
                         .joinToString("\n")
 
                 append(imports.sorted().joinToString("\n") { "import $it" })
@@ -98,7 +99,10 @@ class FakeProcessor(
                     name == "FakeQueryMethod" || name == "FakeCommandMethod"
                 }.toList()
             if (annotations.size != 1) {
-                logger.error("Method in FakeClass must be annotated with exactly one of @FakeQueryMethod or @FakeCommandMethod")
+                if (function.findOverridee() != null) {
+                    return ""
+                }
+                logger.error("Method ${function.simpleName.getShortName()} in FakeClass must be annotated with exactly one of @FakeQueryMethod or @FakeCommandMethod")
                  return ""
             }
             val annotation = annotations.first()
@@ -112,8 +116,8 @@ class FakeProcessor(
                     imports.add("kotlinx.coroutines.flow.MutableSharedFlow")
                     buildString {
                         append("\toverride ")
-                        if (modifiers.isNotBlank()) {
-                            append("$modifiers ")
+                        if (modifiers.contains("suspend")) {
+                            append("suspend ")
                         }
                         append("fun $functionName(")
                         append(function.parameters.joinToString { it.accept(this@Visitor, Unit) })
@@ -145,8 +149,8 @@ class FakeProcessor(
                         append("\tval ${functionName}Invocations: List<List<Any>>\n")
                         append("\t\tget() = _${functionName}Invocations\n\n")
                         append("\toverride ")
-                        if (modifiers.isNotBlank()) {
-                            append("$modifiers ")
+                        if (modifiers.contains("suspend")) {
+                            append("suspend ")
                         }
                         append("fun $functionName(")
                         append(function.parameters.joinToString { it.accept(this@Visitor, Unit) })
@@ -157,7 +161,11 @@ class FakeProcessor(
                         append("\t}\n")
                         append("\n")
 
-                        append("\tfun reset${functionName.capitalize()}Invocations() {\n")
+                        append("\tfun reset${functionName.replaceFirstChar {
+                            if (it.isLowerCase()) it.titlecase(
+                                Locale.ROOT
+                            ) else it.toString()
+                        }}Invocations() {\n")
                         append("\t\t_${functionName}Invocations.clear()\n")
                         append("\t}\n")
                     }

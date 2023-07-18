@@ -92,7 +92,7 @@ dependencies {
     implementation(libs.kotlinx.datetime)
 
     implementation(project(":fakegen"))
-    kspDebug(project(":fakegen"))
+    kspTest(project(":fakegen"))
     testImplementation(libs.kotlinx.coroutines.test)
     testImplementation(libs.turbine)
     testImplementation(libs.junit.jupiter)

@@ -4,6 +4,7 @@ import com.google.common.truth.Truth.assertThat
 import com.sebastianvm.mango.BaseTest
 import com.sebastianvm.mango.FakeProvider
 import com.sebastianvm.mango.data.FakeIncomeSourceRepository
+import com.sebastianvm.mango.data.FakeIncomeSourceRepositoryImpl
 import com.sebastianvm.mango.database.models.IncomeSourceEntity
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
@@ -13,7 +14,7 @@ import org.junit.jupiter.params.provider.MethodSource
 
 class ExampleViewModelTest : BaseTest() {
 
-    private lateinit var incomeSourceRepository: FakeIncomeSourceRepository
+    private lateinit var incomeSourceRepository: FakeIncomeSourceRepositoryImpl
 
     @BeforeEach
     fun beforeEach() {
