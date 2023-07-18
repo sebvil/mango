@@ -1,0 +1,10 @@
+{
+  "name": "Medicare",
+  "jurisdiction": "Federal",
+  "year": 2023,
+  "taxType": {
+    "type": "Fixed",
+    "rate": 0.0145
+  },
+  "deductions": []
+}

@@ -4,10 +4,10 @@ import android.content.Context
 import androidx.annotation.RawRes
 import com.sebastianvm.fakegen.FakeClass
 import com.sebastianvm.fakegen.FakeCommandMethod
-import com.sebastianvm.mango.R
 import com.sebastianvm.mango.database.dao.TaxDao
 import com.sebastianvm.mango.database.models.TaxEntity
 import com.sebastianvm.mango.model.Tax
+import com.sebastianvm.mango.model.Taxes
 import com.sebastianvm.mango.util.coroutines.IODispatcher
 import dagger.Binds
 import dagger.Module
@@ -36,8 +36,8 @@ class TaxRepositoryImpl @Inject constructor(
 
     override suspend fun populateTaxes() {
         withContext(ioDispatcher) {
-            val federalTaxes2023 = readRawJsonFile<TaxEntity>(R.raw.federal_tax_2023)
-            taxDao.upsertTaxes(listOf(federalTaxes2023))
+            val taxes = Taxes.values().map { readRawJsonFile<TaxEntity>(it.location) }
+            taxDao.upsertTaxes(taxes)
         }
     }
 
