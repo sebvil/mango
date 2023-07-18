@@ -4,7 +4,6 @@ import android.content.Context
 import androidx.annotation.RawRes
 import com.sebastianvm.fakegen.FakeClass
 import com.sebastianvm.fakegen.FakeCommandMethod
-import com.sebastianvm.fakegen.FakeQueryMethod
 import com.sebastianvm.mango.R
 import com.sebastianvm.mango.database.dao.TaxDao
 import com.sebastianvm.mango.database.models.TaxEntity
@@ -16,15 +15,10 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.distinctUntilChanged
-import kotlinx.coroutines.flow.flowOn
 import kotlinx.coroutines.withContext
 import kotlinx.serialization.ExperimentalSerializationApi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.decodeFromStream
-import java.io.IOException
-import java.io.InputStream
 import javax.inject.Inject
 
 @FakeClass
@@ -45,9 +39,7 @@ class TaxRepositoryImpl @Inject constructor(
             val federalTaxes2023 = readRawJsonFile<TaxEntity>(R.raw.federal_tax_2023)
             taxDao.upsertTaxes(listOf(federalTaxes2023))
         }
-
     }
-
 
     private val json = Json { isLenient = true }
 
