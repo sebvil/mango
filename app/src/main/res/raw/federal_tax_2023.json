@@ -1,0 +1,45 @@
+{
+  "name": "Federal income",
+  "jurisdiction": "Federal",
+  "year": 2023,
+  "taxType": {
+    "type": "Progressive",
+    "taxBrackets": [
+      {
+        "rate": 0.1,
+        "maxIncome": 110000
+      },
+      {
+        "rate": 0.12,
+        "maxIncome": 44725
+      },
+      {
+        "rate": 0.22,
+        "maxIncome": 95375
+      },
+      {
+        "rate": 0.24,
+        "maxIncome": 182100
+      },
+      {
+        "rate": 0.32,
+        "maxIncome": 231250
+      },
+      {
+        "rate": 0.35,
+        "maxIncome": 578125
+      },
+
+      {
+        "rate": 0.37,
+        "maxIncome": null
+      }
+    ]
+  },
+  "deductions": [
+    {
+      "name": "Standard federal deduction",
+      "amount": 13850
+    }
+  ]
+}
