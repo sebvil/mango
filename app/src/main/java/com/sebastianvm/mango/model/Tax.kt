@@ -1,7 +1,7 @@
 package com.sebastianvm.mango.model
 
 interface Tax {
-    val id: Long
+    val year: Int
     val name: String
     val jurisdiction: Jurisdiction
     val taxType: TaxType
