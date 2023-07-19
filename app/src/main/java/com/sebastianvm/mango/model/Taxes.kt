@@ -76,7 +76,7 @@ enum class Taxes(@StringRes val taxName: Int, val taxEntity: TaxEntity) {
             deductions = listOf(
                 Deduction(
                     name = "Standard federal deduction",
-                    amount = BigDecimal("4803")
+                    amount = BigDecimal("5202")
                 )
             )
         )
