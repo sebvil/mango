@@ -1,7 +1,9 @@
 package com.sebastianvm.mango
 
 import com.sebastianvm.mango.data.FakeIncomeSourceRepository
+import com.sebastianvm.mango.data.FakeTaxRepository
 import com.sebastianvm.mango.database.dao.FakeIncomeSourceDao
+import com.sebastianvm.mango.database.dao.FakeTaxDao
 import com.sebastianvm.mango.database.models.IncomeSourceEntity
 import kotlinx.coroutines.flow.MutableStateFlow
 import java.util.stream.Stream
@@ -16,11 +18,17 @@ object FakeProvider {
             getAllIncomeSourcesValue = MutableStateFlow(listOf(defaultIncomeSourceEntity))
         )
 
+    val taxDao: FakeTaxDao
+        get() = FakeTaxDao()
+
     val incomeSourceRepository: FakeIncomeSourceRepository
         get() = FakeIncomeSourceRepository(
             getIncomeSourceValue = MutableStateFlow(defaultIncomeSourceEntity),
             getAllIncomeSourcesValue = MutableStateFlow(listOf(defaultIncomeSourceEntity))
         )
+
+    val taxRepository: FakeTaxRepository
+        get() = FakeTaxRepository()
 
     @JvmStatic
     fun incomeSourceEntityProvider(): Stream<IncomeSourceEntity> {
