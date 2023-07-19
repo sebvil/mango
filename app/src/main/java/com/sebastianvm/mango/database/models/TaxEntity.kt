@@ -5,7 +5,6 @@ import com.sebastianvm.mango.model.Deduction
 import com.sebastianvm.mango.model.Jurisdiction
 import com.sebastianvm.mango.model.Tax
 import com.sebastianvm.mango.model.TaxType
-import kotlinx.serialization.Serializable
 
 @Entity(primaryKeys = ["name", "year"])
 data class TaxEntity(
