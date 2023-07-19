@@ -16,9 +16,10 @@ enum class Taxes(@StringRes val taxName: Int, val taxEntity: TaxEntity) {
                 taxBrackets = listOf(
                     TaxBracket(rate = BigDecimal("0.1"), maxIncome = BigDecimal("11000")),
                     TaxBracket(rate = BigDecimal("0.12"), maxIncome = BigDecimal("44725")),
-                    TaxBracket(rate = BigDecimal("0.24"), maxIncome = BigDecimal("95375")),
-                    TaxBracket(rate = BigDecimal("0.32"), maxIncome = BigDecimal("182100")),
-                    TaxBracket(rate = BigDecimal("0.35"), maxIncome = BigDecimal("231250")),
+                    TaxBracket(rate = BigDecimal("0.22"), maxIncome = BigDecimal("95375")),
+                    TaxBracket(rate = BigDecimal("0.24"), maxIncome = BigDecimal("182100")),
+                    TaxBracket(rate = BigDecimal("0.32"), maxIncome = BigDecimal("231250")),
+                    TaxBracket(rate = BigDecimal("0.35"), maxIncome = BigDecimal("578125")),
                     TaxBracket(rate = BigDecimal("0.37"), maxIncome = null)
                 )
             ),
