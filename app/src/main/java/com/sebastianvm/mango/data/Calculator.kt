@@ -20,17 +20,12 @@ import kotlinx.coroutines.withContext
 import java.math.BigDecimal
 import javax.inject.Inject
 
-@FakeClass
 interface Calculator {
 
-    @FakeQueryMethod
     suspend fun calculateTax(grossIncome: BigDecimal, tax: Tax): BigDecimal
 }
 
-class CalculatorImpl @Inject constructor(
-    private val taxDao: TaxDao,
-    @IODispatcher private val ioDispatcher: CoroutineDispatcher
-) : Calculator {
+class CalculatorImpl : Calculator {
 
     override suspend fun calculateTax(grossIncome: BigDecimal, tax: Tax): BigDecimal {
         val incomeWithDeductions =
@@ -39,11 +34,15 @@ class CalculatorImpl @Inject constructor(
             }
         return when (val taxType = tax.taxType) {
             is Fixed -> incomeWithDeductions * taxType.rate
-            is FixedWithMax -> minOf(taxType.maxTaxableIncome, incomeWithDeductions) * taxType.rate
+            is FixedWithMax ->incomeWithDeductions * taxType.rate
             is Progressive -> {
                 taxType.taxBrackets.foldIndexed(BigDecimal(0)) { index, acc, taxBracket ->
-                    val minIncome = if (index == 0) 0 else taxType.taxBrackets[index - 1].maxIncome
-                    
+                    val minIncome =
+                        taxType.taxBrackets.getOrNull(index - 1)?.maxIncome ?: BigDecimal(0)
+                    if (minIncome > incomeWithDeductions) return acc
+                    val maxIncome =
+                        incomeWithDeductions.min(taxBracket.maxIncome ?: incomeWithDeductions)
+                    acc + (maxIncome - minIncome) * taxBracket.rate
                 }
             }
         }
