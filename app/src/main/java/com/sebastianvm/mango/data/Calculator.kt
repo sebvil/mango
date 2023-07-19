@@ -9,6 +9,7 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import java.math.BigDecimal
+import java.math.RoundingMode
 
 interface Calculator {
 
@@ -24,18 +25,21 @@ class CalculatorImpl : Calculator {
             }
         return when (val taxType = tax.taxType) {
             is Fixed -> incomeWithDeductions * taxType.rate
-            is FixedWithMax -> incomeWithDeductions * taxType.rate
+            is FixedWithMax -> minOf(incomeWithDeductions, taxType.maxTaxableIncome) * taxType.rate
             is Progressive -> {
                 taxType.taxBrackets.foldIndexed(BigDecimal(0)) { index, acc, taxBracket ->
                     val minIncome =
                         taxType.taxBrackets.getOrNull(index - 1)?.maxIncome ?: BigDecimal(0)
-                    if (minIncome > incomeWithDeductions) return acc
-                    val maxIncome =
-                        incomeWithDeductions.min(taxBracket.maxIncome ?: incomeWithDeductions)
-                    acc + (maxIncome - minIncome) * taxBracket.rate
+                    if (minIncome > incomeWithDeductions) {
+                        acc
+                    } else {
+                        val maxIncome =
+                            incomeWithDeductions.min(taxBracket.maxIncome ?: incomeWithDeductions)
+                        acc + (maxIncome - minIncome) * taxBracket.rate
+                    }
                 }
             }
-        }
+        }.setScale(2, RoundingMode.HALF_UP)
     }
 }
 

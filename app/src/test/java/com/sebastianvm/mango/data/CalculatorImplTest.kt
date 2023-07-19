@@ -6,7 +6,6 @@ import com.sebastianvm.mango.model.Taxes
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.Test
 import java.math.BigDecimal
-import java.math.RoundingMode
 
 class CalculatorImplTest : BaseTest() {
 
@@ -16,43 +15,35 @@ class CalculatorImplTest : BaseTest() {
             CalculatorImpl().calculateTax(
                 BigDecimal("130000"),
                 Taxes.FederalIncome.taxEntity
-            ) / BigDecimal(24)
-        ).isEqualTo(BigDecimal("886.50"))
+            )
+        ).isEqualToIgnoringScale(BigDecimal("21276"))
 
         assertThat(
-            (
-                CalculatorImpl().calculateTax(
-                    BigDecimal("130000"),
-                    Taxes.Medicare.taxEntity
-                ) / BigDecimal(24)
-                ).setScale(2, RoundingMode.HALF_UP)
-        ).isEqualTo(BigDecimal("78.54"))
+            CalculatorImpl().calculateTax(
+                BigDecimal("130000"),
+                Taxes.Medicare.taxEntity
+            )
+        ).isEqualToIgnoringScale(BigDecimal("1885"))
 
         assertThat(
-            (
-                CalculatorImpl().calculateTax(
-                    BigDecimal("130000"),
-                    Taxes.SocialSecurity.taxEntity
-                ) / BigDecimal(24)
-                ).setScale(2, RoundingMode.HALF_UP)
-        ).isEqualTo(BigDecimal("335.83"))
+            CalculatorImpl().calculateTax(
+                BigDecimal("130000"),
+                Taxes.SocialSecurity.taxEntity
+            )
+        ).isEqualToIgnoringScale(BigDecimal("8060"))
 
         assertThat(
-            (
-                CalculatorImpl().calculateTax(
-                    BigDecimal("130000"),
-                    Taxes.CaliforniaIncome.taxEntity
-                ) / BigDecimal(24)
-                ).setScale(2, RoundingMode.HALF_UP)
-        ).isEqualTo(BigDecimal("383.15"))
+            CalculatorImpl().calculateTax(
+                BigDecimal("130000"),
+                Taxes.CaliforniaIncome.taxEntity
+            )
+        ).isEqualToIgnoringScale(BigDecimal("9195.66"))
 
         assertThat(
-            (
-                CalculatorImpl().calculateTax(
-                    BigDecimal("130000"),
-                    Taxes.CaliforniaSdi.taxEntity
-                ) / BigDecimal(24)
-                ).setScale(2, RoundingMode.HALF_UP)
-        ).isEqualTo(BigDecimal("48.75"))
+            CalculatorImpl().calculateTax(
+                BigDecimal("130000"),
+                Taxes.CaliforniaSdi.taxEntity
+            )
+        ).isEqualToIgnoringScale(BigDecimal("1170"))
     }
 }
