@@ -47,7 +47,7 @@ enum class Taxes(@StringRes val taxName: Int, val taxEntity: TaxEntity) {
             jurisdiction = Jurisdiction.Federal,
             year = 2023,
             taxType = FixedWithMax(
-                rate = BigDecimal("0.0145"),
+                rate = BigDecimal("0.062"),
                 maxTaxableIncome = BigDecimal("160200")
             ),
             deductions = listOf()
@@ -78,7 +78,8 @@ enum class Taxes(@StringRes val taxName: Int, val taxEntity: TaxEntity) {
                     amount = BigDecimal("13850")
                 )
             )
-        )),
+        )
+    ),
     CaliforniaSdi(
         taxName = R.string.california_sdi,
         taxEntity = TaxEntity(
@@ -91,5 +92,5 @@ enum class Taxes(@StringRes val taxName: Int, val taxEntity: TaxEntity) {
             ),
             deductions = listOf()
         )
-    ),
+    )
 }
