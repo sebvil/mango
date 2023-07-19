@@ -7,7 +7,6 @@ import com.sebastianvm.mango.model.Tax
 import com.sebastianvm.mango.model.TaxType
 import kotlinx.serialization.Serializable
 
-@Serializable
 @Entity(primaryKeys = ["name", "year"])
 data class TaxEntity(
     override val name: String,
