@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">Mango</string>
+
+    <string name="federal_tax">Federal tax</string>
+    <string name="medicare">Medicare</string>
+    <string name="social_security">Social security</string>
 </resources>
