@@ -3,8 +3,11 @@
 plugins {
     alias(libs.plugins.com.android.application) apply false
     alias(libs.plugins.org.jetbrains.kotlin.android) apply false
+    alias(libs.plugins.org.jetbrains.kotlin.plugin.serialization) apply false
     alias(libs.plugins.org.jetbrains.kotlin.kapt) apply false
     alias(libs.plugins.com.google.dagger.hilt.android) apply false
+    alias(libs.plugins.com.google.devtools.ksp) apply false
+    alias(libs.plugins.ktlint.gradle) apply false
     alias(libs.plugins.org.jetbrains.kotlin.jvm) apply false
     alias(libs.plugins.android.junit5) apply false
 }
