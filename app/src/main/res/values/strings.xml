@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">Mango</string>
+
+    <string name="federal_tax">Federal income tax</string>
+    <string name="medicare">Medicare</string>
+    <string name="social_security">Social security</string>
+    <string name="california_income">California income tax</string>
+    <string name="california_sdi">California SDI</string>
 </resources>
