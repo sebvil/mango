@@ -5,6 +5,7 @@ import com.google.common.truth.Truth.assertThat
 import com.sebastianvm.mango.BaseTest
 import com.sebastianvm.mango.FakeProvider
 import com.sebastianvm.mango.database.dao.FakeIncomeSourceDao
+import com.sebastianvm.mango.database.dao.FakeIncomeSourceDaoImpl
 import com.sebastianvm.mango.database.models.IncomeSourceEntity
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach
@@ -14,7 +15,7 @@ import org.junit.jupiter.params.provider.MethodSource
 
 class IncomeSourceRepositoryImplTest : BaseTest() {
 
-    private lateinit var incomeSourceDao: FakeIncomeSourceDao
+    private lateinit var incomeSourceDao: FakeIncomeSourceDaoImpl
 
     @BeforeEach
     fun beforeEach() {
